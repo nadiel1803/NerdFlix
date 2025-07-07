@@ -42,6 +42,7 @@ p {
     overflow-x: auto;
     gap: 10px;
     justify-content: space-between;
+    margin: 10px;
 }
 
 .categoria {
