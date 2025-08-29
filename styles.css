@@ -1,7 +1,7 @@
 body {
     color: white;
     background: black;
-    margin: 0px;
+    margin: 0;
     font-family: "Chakra Petch", sans-serif;
     margin-bottom: 100px;
     display: flex;
@@ -19,56 +19,79 @@ header {
 
 .chamada {
     background: rgb(83, 0, 0);
-    padding-bottom: 80px;
-    padding-top: 80px;
+    padding: 80px 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* deixa responsivo no celular */
+    gap: 20px;
 }
 
 .chamada-texto {
-    margin-right: 5%;
+    max-width: 500px;
 }
 
 h1 {
     font-size: 40px;
+    margin-bottom: 10px;
 }
 
 p {
     font-size: 20px;
 }
 
-.categoria-videos {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-    justify-content: space-between;
-    margin: 10px;
-}
-
 .categoria {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
     margin-top: 50px;
-}
-
-.categoria-videos img {
-    opacity: 0.5;
-    height: 200px;
-}
-
-.categoria-videos img:hover {
-    opacity: 1.0;
-    border: 3px solid rgb(128, 0, 0);
 }
 
 .categoria h2 {
     color: rgb(228, 42, 42);
     text-align: center;
     font-size: 40px;
+    margin-bottom: 20px;
+}
+
+/* 🔥 Container dos vídeos */
+.categoria-videos {
+    display: flex;
+    overflow-x: auto; /* scroll lateral */
+    gap: 15px;
+    padding: 10px;
+    scroll-behavior: smooth; /* rolagem suave */
+}
+
+.categoria-videos::-webkit-scrollbar {
+    height: 8px;
+}
+
+.categoria-videos::-webkit-scrollbar-thumb {
+    background: rgb(128, 0, 0);
+    border-radius: 4px;
+}
+
+.categoria-videos::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 🔥 Estilo dos thumbs */
+.categoria-videos img {
+    opacity: 0.6;
+    height: 200px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.categoria-videos img:hover {
+    opacity: 1;
+    transform: scale(1.05); /* leve zoom */
+    border: 3px solid rgb(128, 0, 0);
 }
 
 .video1 {
     border-radius: 30px;
+    max-width: 100%;
 }
 
 .video {
