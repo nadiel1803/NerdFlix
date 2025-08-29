@@ -52,7 +52,7 @@ p {
     margin-bottom: 20px;
 }
 
-/* 🔥 Container dos vídeos */
+/* 🔥 Container dos vídeos (scroll horizontal) */
 .categoria-videos {
     display: flex;
     overflow-x: auto; /* scroll lateral */
@@ -89,6 +89,7 @@ p {
     border: 3px solid rgb(128, 0, 0);
 }
 
+/* 🔥 Player principal */
 .video1 {
     border-radius: 30px;
     max-width: 100%;
