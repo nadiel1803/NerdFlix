@@ -23,7 +23,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* deixa responsivo no celular */
+    flex-wrap: wrap; /* responsivo */
     gap: 20px;
 }
 
@@ -56,37 +56,37 @@ p {
 .categoria-videos {
     display: flex;
     overflow-x: auto; /* scroll lateral */
-    gap: 15px;
+    gap: 20px;
     padding: 10px;
     scroll-behavior: smooth; /* rolagem suave */
 }
 
 .categoria-videos::-webkit-scrollbar {
-    height: 8px;
+    height: 10px;
 }
 
 .categoria-videos::-webkit-scrollbar-thumb {
     background: rgb(128, 0, 0);
-    border-radius: 4px;
+    border-radius: 5px;
 }
 
 .categoria-videos::-webkit-scrollbar-track {
     background: transparent;
 }
 
-/* 🔥 Estilo dos thumbs */
+/* 🔥 Estilo dos thumbs (maiores agora) */
 .categoria-videos img {
-    opacity: 0.6;
-    height: 200px;
-    border-radius: 12px;
+    opacity: 0.8;
+    height: 300px; /* aumentado */
+    border-radius: 15px;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .categoria-videos img:hover {
     opacity: 1;
-    transform: scale(1.05); /* leve zoom */
-    border: 3px solid rgb(128, 0, 0);
+    transform: scale(1.08); /* zoom maior */
+    border: 4px solid rgb(228, 42, 42);
 }
 
 /* 🔥 Player principal */
