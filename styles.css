@@ -23,7 +23,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* responsivo */
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -52,13 +52,12 @@ p {
     margin-bottom: 20px;
 }
 
-/* 🔥 Container dos vídeos (scroll horizontal) */
 .categoria-videos {
     display: flex;
-    overflow-x: auto; /* scroll lateral */
-    gap: 20px;
+    overflow-x: auto;
+    gap: 15px;
     padding: 10px;
-    scroll-behavior: smooth; /* rolagem suave */
+    scroll-behavior: smooth;
 }
 
 .categoria-videos::-webkit-scrollbar {
@@ -74,22 +73,21 @@ p {
     background: transparent;
 }
 
-/* 🔥 Estilo dos thumbs (maiores agora) */
+/* 🔥 Thumbs menores novamente */
 .categoria-videos img {
     opacity: 0.8;
-    height: 300px; /* aumentado */
-    border-radius: 15px;
+    height: 200px; /* voltou pro padrão */
+    border-radius: 12px;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .categoria-videos img:hover {
     opacity: 1;
-    transform: scale(1.08); /* zoom maior */
-    border: 4px solid rgb(228, 42, 42);
+    transform: scale(1.05);
+    border: 3px solid rgb(228, 42, 42);
 }
 
-/* 🔥 Player principal */
 .video1 {
     border-radius: 30px;
     max-width: 100%;
