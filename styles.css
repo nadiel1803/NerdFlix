@@ -76,7 +76,7 @@ p {
 /* 🔥 Thumbs menores novamente */
 .categoria-videos img {
     opacity: 0.8;
-    height: 200px; /* voltou pro padrão */
+    height: 180px; /* voltou pro padrão */
     border-radius: 12px;
     transition: all 0.3s ease;
     cursor: pointer;
