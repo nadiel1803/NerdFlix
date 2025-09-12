@@ -1,198 +1,157 @@
-/* ===== base ===== */
+/* ===== Reset / base ===== */
 * { box-sizing: border-box; }
 html,body { height: 100%; }
-body{
-  margin:0;
-  font-family: "Chakra Petch", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background:#050505;
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
+body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: "Chakra Petch", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* TOPBAR minimalista estilo Netflix */
-.nf-topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:12px 20px;
-  gap:12px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.85), rgba(0,0,0,0.6));
-  position:sticky;
-  top:0;
-  z-index:40;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+/* Conteúdo centralizado com largura máxima */
+.content {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 16px 80px;
 }
 
-.nf-logo{
-  color: rgb(228,42,42);
-  font-weight:700;
-  font-size:20px;
-  letter-spacing:1px;
+/* ===== Header ===== */
+header {
+    width: 100%;
+    border-bottom: 2px solid rgb(228, 42, 42);
+    padding: 20px 0;
+    font-size: 48px;
+    color: rgb(228, 42, 42);
+    text-align: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent 60%);
 }
 
-.nf-nav { display:flex; gap:18px; }
-.nf-nav .nav-link { color:#ddd; text-decoration:none; font-size:14px; opacity:0.95; }
-.nf-nav .nav-link:hover { color:#fff; }
-
-/* search + avatar */
-.nf-right { display:flex; gap:10px; align-items:center; }
-.nf-search{
-  background:#111;
-  border: none;
-  padding:8px 12px;
-  border-radius:4px;
-  color:#ddd;
-  min-width:160px;
-}
-.nf-avatar{
-  width:36px; height:36px; border-radius:50%; background:#222; display:flex; align-items:center; justify-content:center; font-weight:700;
+/* ===== Chamada / player responsivo ===== */
+.chamada {
+    background: rgb(83, 0, 0);
+    padding: 40px 12px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 6px;
+    margin-top: 20px;
 }
 
-/* HERO estilo Netflix */
-.hero{
-  height: 52vh;
-  min-height: 300px;
-  background-size: cover;
-  background-position: center center;
-  display:flex;
-  align-items:flex-end;
-  padding: 28px 40px;
-  position:relative;
+.chamada-texto {
+    max-width: 520px;
+    text-align: left;
 }
 
-.hero-overlay{
-  position:absolute; inset:0; background: linear-gradient(90deg, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.25) 35%, rgba(5,5,5,0) 70%);
+.chamada h1 { font-size: 32px; margin: 0 0 8px; line-height: 1.05; }
+.chamada p { margin: 0; font-size: 16px; opacity: 0.95; }
+
+/* iframe responsivo: usa aspect-ratio */
+.video-wrap {
+    width: 100%;
+    max-width: 860px;
+    aspect-ratio: 16 / 9;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    flex: 1 1 560px;
+    min-width: 300px;
+}
+.video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
 }
 
-.hero-content{
-  position:relative;
-  z-index:2;
-  max-width: 60%;
-  color:#fff;
+/* ===== Categoria (títulos) ===== */
+.categoria {
+    padding: 18px 0;
+    margin-top: 36px;
 }
 
-.hero-title{
-  font-size: clamp(20px, 4vw, 40px);
-  margin:0 0 8px;
-  font-weight:700;
-  letter-spacing:0.3px;
+.categoria h2 {
+    color: rgb(228, 42, 42);
+    text-align: center;
+    font-size: 28px;
+    margin: 0 0 14px;
 }
 
-.hero-desc{
-  margin:0 0 16px;
-  opacity:0.9;
+/* ===== Container dos thumbnails (scroll horizontal) ===== */
+.categoria-videos {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 12px 6px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory; /* pra alinhamento agradável ao rolar */
 }
 
-.btn{
-  padding:10px 14px;
-  border-radius:6px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  text-decoration:none;
-  margin-right:8px;
+/* Scrollbar visual (WebKit) */
+.categoria-videos::-webkit-scrollbar { height: 9px; }
+.categoria-videos::-webkit-scrollbar-thumb { background: rgb(128,0,0); border-radius: 6px; }
+.categoria-videos::-webkit-scrollbar-track { background: transparent; }
+
+/* Cada item (link) com largura fixa responsiva */
+.categoria-videos a {
+    display: block;
+    flex: 0 0 320px; /* largura base em desktop */
+    scroll-snap-align: start;
+    text-decoration: none;
+    outline: none;
+    border-radius: 12px;
 }
-.btn.primary{
-  background: rgb(228,42,42);
-  color:white;
-}
-.btn.secondary{
-  background: rgba(255,255,255,0.06);
-  color:white;
+.categoria-videos a:focus { box-shadow: 0 0 0 3px rgba(228,42,42,0.25); }
+
+/* Thumb: tamanhos consistentes (altura fixa), usando object-fit pra preencher */
+.categoria-videos img {
+    width: 100%;
+    height: 200px; /* padrão: 200px igual ao que você queria */
+    object-fit: cover;   /* garante que a miniatura preencha sem distorcer */
+    border-radius: 12px;
+    display: block;
+    opacity: 0.85;
+    transition: transform .25s ease, opacity .25s ease, border .15s ease;
+    border: 2px solid transparent;
+    background: #111; /* fallback */
 }
 
-/* MAIN content area */
-.nf-main{
-  padding: 24px 28px;
-  max-width:1200px;
-  margin: 0 auto 80px;
+/* hover / foco */
+.categoria-videos img:hover,
+.categoria-videos a:focus img {
+    transform: translateY(-6px) scale(1.03);
+    opacity: 1;
+    border-color: rgba(228,42,42,0.9);
 }
 
-/* Row title */
-.row { margin-bottom: 26px; }
-.row-title { color:#fff; font-size:18px; margin:6px 8px 12px; }
-
-/* Row cards (carrossel horizontal) */
-.row-cards{
-  display:flex;
-  gap:12px;
-  overflow-x:auto;
-  padding:10px 6px;
-  scroll-behavior:smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* custom scrollbar (webkit) */
-.row-cards::-webkit-scrollbar { height:8px; }
-.row-cards::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius:6px; }
-
-/* Card (poster) */
-.card{
-  display:block;
-  width: 220px;            /* largura do poster */
-  flex: 0 0 220px;        /* fixa no carrossel */
-  border-radius:8px;
-  overflow:hidden;
-  text-decoration:none;
-  color:inherit;
-  position:relative;
-  transition: transform .22s ease;
-}
-.card img{
-  width:100%;
-  height: 260px;          /* altura do poster (cinematic) */
-  object-fit:cover;
-  display:block;
-  transition: transform .25s ease, filter .25s ease;
-  filter: brightness(0.95);
-}
-.card-info{
-  position:absolute;
-  left:0; right:0; bottom:0;
-  padding:8px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 70%);
-  display:flex; align-items:flex-end;
-}
-.card-title{
-  font-size:13px;
-  font-weight:600;
-  color:#fff;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.8);
-}
-
-/* Hover effect like Netflix: scale + elevate */
-.card:hover, .card:focus {
-  transform: translateY(-8px) scale(1.04);
-  z-index: 6;
-}
-.card:hover img { transform: scale(1.06); filter: brightness(1); }
-
-/* make titles appear on hover (subtle) */
-.card .card-info { opacity: 0; transform: translateY(6px); transition: all .22s ease; }
-.card:hover .card-info, .card:focus .card-info { opacity:1; transform: translateY(0); }
-
-/* RESPONSIVE */
+/* ===== Responsividade ===== */
 @media (max-width: 1100px) {
-  .hero { padding: 22px; min-height: 260px; }
-  .hero-content { max-width: 70%; }
-  .card{ width: 190px; flex:0 0 190px; }
-  .card img{ height:230px; }
+    .categoria-videos a { flex: 0 0 280px; }
+    .video-wrap { max-width: 720px; }
 }
 
-@media (max-width: 760px) {
-  .nf-nav { display:none; }
-  .hero { height: 40vh; padding: 18px; min-height: 200px; }
-  .hero-content { max-width:100%; }
-  .row-cards { gap:10px; padding:8px; }
-  .card{ width: 150px; flex: 0 0 150px; }
-  .card img{ height: 180px; }
-  .nf-topbar { padding:10px; }
-  .nf-search { display:none; }
+@media (max-width: 820px) {
+    header { font-size: 40px; }
+    .chamada h1 { font-size: 26px; }
+    .categoria h2 { font-size: 24px; }
+    .categoria-videos a { flex: 0 0 240px; }
+    .categoria-videos img { height: 180px; }
+    .video-wrap { min-width: 280px; }
 }
 
-@media (max-width: 420px) {
-  .card{ width: 130px; flex: 0 0 130px; }
-  .card img{ height:150px; }
-  .hero { height: 36vh; }
-  .hero-title { font-size: 18px; }
+@media (max-width: 480px) {
+    header { font-size: 32px; }
+    .chamada { padding: 28px 10px; gap: 12px; }
+    .chamada-texto { text-align: center; }
+    .categoria-videos a { flex: 0 0 200px; }
+    .categoria-videos img { height: 140px; }
+    .chamada h1 { font-size: 20px; }
 }
+
+/* pequenos ajustes estéticos */
+.categoria-videos a img + img { margin-top: 8px; }
