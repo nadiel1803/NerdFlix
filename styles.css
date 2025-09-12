@@ -1,157 +1,162 @@
-/* ===== Reset / base ===== */
+/* ===== base ===== */
 * { box-sizing: border-box; }
-html,body { height: 100%; }
+html, body { height: 100%; }
 body {
     margin: 0;
+    font-family: "Chakra Petch", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
     background: #000;
     color: #fff;
-    font-family: "Chakra Petch", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Conteúdo centralizado com largura máxima */
-.content {
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 16px 80px;
-}
-
-/* ===== Header ===== */
+/* Header */
 header {
-    width: 100%;
     border-bottom: 2px solid rgb(228, 42, 42);
-    padding: 20px 0;
+    padding: 18px;
     font-size: 48px;
     color: rgb(228, 42, 42);
     text-align: center;
-    background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent 60%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.9));
+    position: sticky;
+    top: 0;
+    z-index: 30;
 }
 
-/* ===== Chamada / player responsivo ===== */
+/* container central */
+.container {
+    max-width: 1200px;
+    margin: 16px auto 80px;
+    padding: 0 16px;
+}
+
+/* controls */
+.controls {
+    display:flex;
+    gap:12px;
+    justify-content:flex-end;
+    align-items:center;
+    margin-bottom:12px;
+}
+.controls input[type="search"] {
+    width: 260px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: none;
+    background: #111;
+    color: #fff;
+}
+.btn {
+    background: rgb(228,42,42);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.btn.small { padding: 6px 8px; font-size: 13px; }
+
+/* chamada / player */
 .chamada {
     background: rgb(83, 0, 0);
-    padding: 40px 12px;
+    padding: 28px;
+    border-radius: 8px;
     display: flex;
-    gap: 24px;
+    gap: 22px;
     align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    border-radius: 6px;
-    margin-top: 20px;
 }
+.chamada-texto { max-width: 520px; }
+.chamada h1 { font-size: 28px; margin: 0 0 8px; }
+.chamada p { margin: 0; font-size: 15px; color: #eee; }
 
-.chamada-texto {
-    max-width: 520px;
-    text-align: left;
-}
-
-.chamada h1 { font-size: 32px; margin: 0 0 8px; line-height: 1.05; }
-.chamada p { margin: 0; font-size: 16px; opacity: 0.95; }
-
-/* iframe responsivo: usa aspect-ratio */
-.video-wrap {
-    width: 100%;
-    max-width: 860px;
-    aspect-ratio: 16 / 9;
-    border-radius: 30px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+/* player responsivo */
+.player-wrap {
     flex: 1 1 560px;
     min-width: 300px;
+    max-width: 860px;
+    aspect-ratio: 16/9;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
-.video-wrap iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
+.player-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-/* ===== Categoria (títulos) ===== */
-.categoria {
-    padding: 18px 0;
-    margin-top: 36px;
-}
+/* categorias */
+.categoria { margin-top: 36px; }
+.categoria h2 { color: rgb(228, 42, 42); font-size: 28px; text-align: center; margin-bottom: 12px; }
 
-.categoria h2 {
-    color: rgb(228, 42, 42);
-    text-align: center;
-    font-size: 28px;
-    margin: 0 0 14px;
-}
-
-/* ===== Container dos thumbnails (scroll horizontal) ===== */
+/* container de thumbs (horizontal) */
 .categoria-videos {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     overflow-x: auto;
-    padding: 12px 6px;
+    padding: 10px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory; /* pra alinhamento agradável ao rolar */
+    align-items: flex-start;
 }
 
-/* Scrollbar visual (WebKit) */
-.categoria-videos::-webkit-scrollbar { height: 9px; }
+/* scroll styles */
+.categoria-videos::-webkit-scrollbar { height: 8px; }
 .categoria-videos::-webkit-scrollbar-thumb { background: rgb(128,0,0); border-radius: 6px; }
-.categoria-videos::-webkit-scrollbar-track { background: transparent; }
 
-/* Cada item (link) com largura fixa responsiva */
-.categoria-videos a {
+/* thumbs (itens) */
+.thumb {
+    position: relative;
     display: block;
-    flex: 0 0 320px; /* largura base em desktop */
-    scroll-snap-align: start;
+    flex: 0 0 300px; /* largura do cartão */
     text-decoration: none;
-    outline: none;
     border-radius: 12px;
+    overflow: hidden;
 }
-.categoria-videos a:focus { box-shadow: 0 0 0 3px rgba(228,42,42,0.25); }
-
-/* Thumb: tamanhos consistentes (altura fixa), usando object-fit pra preencher */
-.categoria-videos img {
+.thumb img {
     width: 100%;
-    height: 200px; /* padrão: 200px igual ao que você queria */
-    object-fit: cover;   /* garante que a miniatura preencha sem distorcer */
-    border-radius: 12px;
+    height: 200px; /* padrão reduzido conforme você pediu */
+    object-fit: cover;
     display: block;
-    opacity: 0.85;
-    transition: transform .25s ease, opacity .25s ease, border .15s ease;
-    border: 2px solid transparent;
-    background: #111; /* fallback */
+    transition: transform .25s ease, opacity .2s ease;
+    opacity: 0.9;
+}
+.thumb .playIcon {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    background: rgba(0,0,0,0.55);
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none;
 }
 
 /* hover / foco */
-.categoria-videos img:hover,
-.categoria-videos a:focus img {
-    transform: translateY(-6px) scale(1.03);
+.thumb:hover img, .thumb:focus img {
+    transform: translateY(-6px) scale(1.02);
     opacity: 1;
-    border-color: rgba(228,42,42,0.9);
+    border: 3px solid rgba(228,42,42,0.9);
 }
 
-/* ===== Responsividade ===== */
+/* classe para thumbs maiores */
+.large-thumbs .categoria-videos .thumb {
+    flex: 0 0 360px;
+}
+.large-thumbs .categoria-videos .thumb img {
+    height: 300px;
+}
+
+/* responsividade */
 @media (max-width: 1100px) {
-    .categoria-videos a { flex: 0 0 280px; }
-    .video-wrap { max-width: 720px; }
+    .player-wrap { max-width: 720px; }
+    .thumb { flex: 0 0 280px; }
 }
-
 @media (max-width: 820px) {
-    header { font-size: 40px; }
-    .chamada h1 { font-size: 26px; }
-    .categoria h2 { font-size: 24px; }
-    .categoria-videos a { flex: 0 0 240px; }
-    .categoria-videos img { height: 180px; }
-    .video-wrap { min-width: 280px; }
+    header { font-size: 36px; }
+    .chamada { padding: 20px; }
+    .thumb { flex: 0 0 240px; }
+    .thumb img { height: 180px; }
+    .controls { justify-content: center; margin-bottom: 14px; }
 }
-
 @media (max-width: 480px) {
-    header { font-size: 32px; }
-    .chamada { padding: 28px 10px; gap: 12px; }
-    .chamada-texto { text-align: center; }
-    .categoria-videos a { flex: 0 0 200px; }
-    .categoria-videos img { height: 140px; }
-    .chamada h1 { font-size: 20px; }
+    .thumb { flex: 0 0 200px; }
+    .thumb img { height: 140px; }
+    .chamada h1 { font-size: 18px; }
 }
-
-/* pequenos ajustes estéticos */
-.categoria-videos a img + img { margin-top: 8px; }
