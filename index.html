@@ -1,97 +1,178 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>NerdFlix</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NerdFlix — YouTube-ish layout</title>
 
-    <!-- Link externo pro CSS -->
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 
-    <!-- Fonte -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/ico" href="Assets/images.jpeg">
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>NERDFLIX</header>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="top-left">
+      <button id="menuBtn" aria-label="Abrir menu" class="icon-btn">☰</button>
+      <div class="logo">NERDFLIX</div>
+    </div>
 
-    <main class="content">
+    <div class="search-wrap">
+      <input id="searchInput" type="search" placeholder="Pesquisar" aria-label="Pesquisar vídeos" />
+      <button class="search-btn" aria-label="Pesquisar">🔍</button>
+    </div>
 
-        <!-- CHAMADA PRINCIPAL -->
-        <section class="chamada">
-            <div class="chamada-texto">
-                <h1>JVNQ e MOONKASE [+ MALENA] - <br> FLOW GAMES #07</h1>
-                <p>#jvnq #moonkase #flowgames #podcast</p>
-            </div>
+    <div class="top-right">
+      <button class="icon-btn" title="Upload">⬆️</button>
+      <button class="icon-btn" title="Notificações">🔔</button>
+      <div class="avatar">R2</div>
+    </div>
+  </header>
 
-            <div class="video-wrap">
-                <!-- iframe responsivo -->
-                <iframe
-                    src="https://www.youtube.com/embed/PSHSFlos6Ag?si=YjtirXmP0QQ_TkRu&amp;controls=0"
-                    title="JVNQ e MOONKASE - Flow Games #07"
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <nav>
+        <a class="side-item" href="#"><span>🏠</span> Início</a>
+        <a class="side-item" href="#"><span>🔥</span> Em alta</a>
+        <a class="side-item" href="#"><span>📚</span> Biblioteca</a>
+        <hr/>
+        <a class="side-item" href="#"><span>🎮</span> Nerdices</a>
+        <a class="side-item" href="#"><span>🎧</span> Podcasts</a>
+        <a class="side-item" href="#"><span>🎬</span> Séries</a>
+      </nav>
+      <div class="side-footer">Feito por R2D2</div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+      <!-- Player + details + recommendations -->
+      <section class="player-section">
+        <div class="player-area">
+          <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/PSHSFlos6Ag?si=YjtirXmP0QQ_TkRu&amp;controls=1"
+                    title="Player principal"
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen
-                ></iframe>
-            </div>
-        </section>
+                    allowfullscreen></iframe>
+          </div>
 
-        <!-- PRIMEIRA SEÇÃO DE VÍDEOS -->
-        <section class="categoria">
-            <h2>Principal</h2>
-            <div class="categoria-videos">
-                <a href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" target="_blank" rel="noopener noreferrer" aria-label="Abrir vídeo 1">
-                    <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="Thumbnail do vídeo pf1IhjYktfs" />
-                </a>
-                <a href="https://www.youtube.com/watch?v=MPwgnxRcX2s" target="_blank" rel="noopener noreferrer" aria-label="Abrir vídeo 2">
-                    <img src="https://i.ytimg.com/vi/MPwgnxRcX2s/hqdefault.jpg" alt="Thumbnail do vídeo MPwgnxRcX2s" />
-                </a>
-                <a href="https://youtu.be/g48ISNw8sNY?si=QUT2lByrfqup1NmX" target="_blank" rel="noopener noreferrer" aria-label="Abrir vídeo 3">
-                    <img src="https://i.ytimg.com/vi/g48ISNw8sNY/hqdefault.jpg" alt="Thumbnail do vídeo g48ISNw8sNY" />
-                </a>
-                <a href="https://www.youtube.com/watch?v=TWcuiI3ra7c&t=5137s" target="_blank" rel="noopener noreferrer" aria-label="Abrir vídeo 4">
-                    <img src="https://i.ytimg.com/vi/TWcuiI3ra7c/hqdefault.jpg" alt="Thumbnail do vídeo TWcuiI3ra7c" />
-                </a>
-                <a href="https://youtu.be/0xxSoV9O_ig?si=23eA45p3IKCkVZLD" target="_blank" rel="noopener noreferrer" aria-label="Abrir vídeo 5">
-                    <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="Thumbnail do vídeo 0xxSoV9O_ig" />
-                </a>
+          <div class="video-meta">
+            <h1 class="video-title">JVNQ e MOONKASE [+ MALENA] - FLOW GAMES #07</h1>
+            <div class="video-info">
+              <div>#jvnq #moonkase #flowgames #podcast</div>
+              <div class="actions">
+                <button class="btn">👍 Curtir</button>
+                <button class="btn">👎 Não curtir</button>
+                <button class="btn">Compartilhar</button>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
 
-        <!-- SEGUNDA SEÇÃO DE VÍDEOS -->
-        <section class="categoria">
-            <h2>LEON & NILCE: FILMES</h2>
-            <div class="categoria-videos">
-                <a href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI" />
-                </a>
-                <a href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs" />
-                </a>
-                <a href="https://youtu.be/n-sYjHOkwIk?si=qzzXt1YjoMR2nCQn" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk" />
-                </a>
-                <a href="https://youtu.be/818TmDjc_ak?si=tZvDeZ6pLr06XHpD" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak" />
-                </a>
-                <a href="https://youtu.be/GaGwd-NXyGM?si=JucLOwqMCuOXZY_p" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM" />
-                </a>
-                <a href="https://youtu.be/VRSyYcPRws0?si=ObffTSL1VIZHnCnM" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0" />
-                </a>
-                <a href="https://youtu.be/FedBr0CyAlE?si=sghI9zGMBsqCXL2c" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE" />
-                </a>
-                <a href="https://youtu.be/fJYkXmAdkrQ?si=McuDO9zzHR1aBtLW" target="_blank" rel="noopener noreferrer">
-                    <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ" />
-                </a>
-            </div>
-        </section>
+        <aside class="recommend-col">
+          <h3>Recomendados</h3>
+          <div class="rec-list">
+            <!-- thumbs pequenas da coluna de recomendados -->
+            <a class="rec-item" href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" target="_blank" rel="noopener noreferrer">
+              <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="">
+              <div class="rec-text">Vídeo recomendado 1</div>
+            </a>
 
+            <a class="rec-item" href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" target="_blank" rel="noopener noreferrer">
+              <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="">
+              <div class="rec-text">Vídeo recomendado 2</div>
+            </a>
+
+            <a class="rec-item" href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" target="_blank" rel="noopener noreferrer">
+              <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="">
+              <div class="rec-text">Vídeo recomendado 3</div>
+            </a>
+          </div>
+        </aside>
+      </section>
+
+      <!-- CATEGORIAS / CARROSSEIS (como antes) -->
+      <section class="categoria">
+        <h2>Nerdices!</h2>
+        <div class="categoria-videos">
+          <a href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs">
+          </a>
+          <a href="https://www.youtube.com/watch?v=MPwgnxRcX2s" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/MPwgnxRcX2s/hqdefault.jpg" alt="MPwgnxRcX2s">
+          </a>
+          <a href="https://youtu.be/g48ISNw8sNY?si=QUT2lByrfqup1NmX" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/g48ISNw8sNY/hqdefault.jpg" alt="g48ISNw8sNY">
+          </a>
+          <a href="https://www.youtube.com/watch?v=TWcuiI3ra7c&t=5137s" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/TWcuiI3ra7c/hqdefault.jpg" alt="TWcuiI3ra7c">
+          </a>
+          <a href="https://youtu.be/0xxSoV9O_ig?si=23eA45p3IKCkVZLD" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig">
+          </a>
+        </div>
+      </section>
+
+      <section class="categoria">
+        <h2>Nerdices 2!</h2>
+        <div class="categoria-videos">
+          <a href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
+          </a>
+          <a href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
+          </a>
+          <a href="https://youtu.be/n-sYjHOkwIk?si=qzzXt1YjoMR2nCQn" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
+          </a>
+          <a href="https://youtu.be/818TmDjc_ak?si=tZvDeZ6pLr06XHpD" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
+          </a>
+          <a href="https://youtu.be/GaGwd-NXyGM?si=JucLOwqMCuOXZY_p" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
+          </a>
+          <a href="https://youtu.be/VRSyYcPRws0?si=ObffTSL1VIZHnCnM" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
+          </a>
+          <a href="https://youtu.be/FedBr0CyAlE?si=sghI9zGMBsqCXL2c" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
+          </a>
+          <a href="https://youtu.be/fJYkXmAdkrQ?si=McuDO9zzHR1aBtLW" target="_blank" rel="noopener noreferrer">
+            <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
+          </a>
+        </div>
+      </section>
     </main>
+  </div>
+
+  <!-- pequeno script para abrir/fechar sidebar em mobile -->
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+
+    // busca simples — apenas filtra thumbs pela string no atributo alt/href (cliente)
+    const searchBtn = document.querySelector('.search-btn');
+    const searchInput = document.getElementById('searchInput');
+    searchBtn.addEventListener('click', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if (!q) {
+        // se vazio, remove filtros
+        document.querySelectorAll('.categoria-videos a').forEach(a => a.style.display = '');
+        return;
+      }
+      document.querySelectorAll('.categoria-videos a').forEach(a => {
+        const txt = (a.getAttribute('href') + ' ' + (a.querySelector('img')?.alt || '')).toLowerCase();
+        a.style.display = txt.includes(q) ? '' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
