@@ -143,6 +143,120 @@ header {
     height: 300px;
 }
 
+/* =========================
+   Footer (estilo NerdFlix)
+   ========================= */
+.site-footer {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, rgba(5,5,5,0.85), rgba(10,10,10,0.95));
+  padding: 18px 16px;
+  color: #ddd;
+  margin-top: 40px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Left side */
+.footer-left .made-by {
+  font-size: 14px;
+  opacity: 0.95;
+}
+.footer-left strong {
+  color: rgb(228, 42, 42);
+  font-weight: 700;
+}
+
+/* Social icons */
+.footer-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Link look */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icon color + hover */
+.social-link svg { display: block; }
+.social-link:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: linear-gradient(90deg, rgba(228,42,42,0.12), rgba(255,255,255,0.02));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+/* small pulsing effect on focus for keyboard users */
+.social-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(228,42,42,0.12);
+  transform: translateY(-3px);
+}
+
+/* tooltip text (appears on hover) */
+.social-link::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+  white-space: nowrap;
+  z-index: 50;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+}
+
+/* show tooltip on hover and focus */
+.social-link:hover::after,
+.social-link:focus::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* small screen adjustments */
+@media (max-width: 560px) {
+  .footer-inner { padding: 6px 4px; gap: 8px; }
+  .footer-left .made-by { font-size: 13px; }
+  .social-link { width: 40px; height: 34px; border-radius: 7px; }
+  .social-link::after { font-size: 11px; }
+}
+
+/* visually-hidden text for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+
 /* responsividade */
 @media (max-width: 1100px) {
     .player-wrap { max-width: 720px; }
