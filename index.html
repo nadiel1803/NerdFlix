@@ -1,84 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NerdFlix</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Se tiver script.js adicione aqui:
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NERDFLIX</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- JS (seu script.js que você já me mostrou) -->
   <script src="script.js" defer></script>
-  -->
 </head>
 <body>
   <header>
     <h1>NERDFLIX</h1>
   </header>
 
-  <!-- Seção Principal -->
-  <section class="video-section">
-    <h2>PRINCIPAL</h2>
-    <div class="video-grid">
-      <a href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" target="_blank">
-        <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs">
-      </a>
-      <a href="https://youtu.be/0xxSoV9O_ig?si=23eA45p3IKCkVZLD" target="_blank">
-        <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig">
-      </a>
-      <!-- adicione mais itens aqui se quiser -->
+  <main class="container">
+
+    <!-- CONTROLES (search + toggle size) -->
+    <div class="controls">
+      <input id="search" type="search" placeholder="Pesquisar vídeos (título / id)" aria-label="Pesquisar vídeos">
+      <button id="toggleSize" class="btn small">Alternar tamanho das thumbs</button>
     </div>
-  </section>
 
-  <!-- Seção Leon & Nilce -->
-  <section class="video-section">
-    <h2>LEON &amp; NILCE: FILMES</h2>
-    <div class="video-grid" id="leonNilceGrid">
-      <a href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" target="_blank">
-        <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
-      </a>
-      <a href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" target="_blank">
-        <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
-      </a>
-      <a href="https://youtu.be/n-sYjHOkwIk?si=qzzXt1YjoMR2nCQn" target="_blank">
-        <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
-      </a>
-      <a href="https://youtu.be/818TmDjc_ak?si=tZvDeZ6pLr06XHpD" target="_blank">
-        <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
-      </a>
-      <a href="https://youtu.be/GaGwd-NXyGM?si=JucLOwqMCuOXZY_p" target="_blank">
-        <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
-      </a>
-      <a href="https://youtu.be/VRSyYcPRws0?si=ObffTSL1VIZHnCnM" target="_blank">
-        <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
-      </a>
-      <a href="https://youtu.be/FedBr0CyAlE?si=sghI9zGMBsqCXL2c" target="_blank">
-        <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
-      </a>
-      <a href="https://youtu.be/fJYkXmAdkrQ?si=McuDO9zzHR1aBtLW" target="_blank">
-        <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
-      </a>
+    <!-- CHAMADA / PLAYER PRINCIPAL -->
+    <section class="chamada">
+      <div class="chamada-texto">
+        <!-- estes IDs são usados pelo script.js -->
+        <h2 id="main-title">JVNQ e MOONKASE [+ MALENA] - FLOW GAMES #07</h2>
+        <p id="main-desc">#jvnq #moonkase #flowgames #podcast</p>
+      </div>
 
-      <!-- botão que aparece no final (visual alinhado com grid) -->
-      <div class="playlist-button-wrap">
-        <a class="playlist-button"
-           href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U"
-           target="_blank" rel="noopener noreferrer">
-          Ver playlist completa
+      <div class="player-wrap">
+        <!-- iframe principal com id esperado pelo script.js -->
+        <iframe id="mainPlayer"
+                src="https://www.youtube.com/embed/PSHSFlos6Ag?rel=0"
+                title="Player principal"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 1 (agora "PRINCIPAL") -->
+    <section class="categoria" id="principal">
+      <h3>PRINCIPAL</h3>
+      <div class="categoria-videos" data-category="PRINCIPAL">
+        <!-- thumbs precisam ter class="thumb" e data-video com URL embed -->
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/pf1IhjYktfs?rel=0" data-title="pf1IhjYktfs - Nerdice 1" tabindex="0">
+          <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs - Nerdice 1">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/0xxSoV9O_ig?rel=0" data-title="0xxSoV9O_ig - Novo Vídeo" tabindex="0">
+          <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig - Novo Vídeo">
+        </a>
+
+        <!-- pode adicionar mais thumbs aqui seguindo o mesmo formato -->
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2 (agora "LEON & NILCE: FILMES") -->
+    <section class="categoria" id="leonNilce">
+      <h3>LEON &amp; NILCE: FILMES</h3>
+      <div class="categoria-videos" data-category="LEON & NILCE">
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/wlpr0jpGGGI?rel=0" data-title="wlpr0jpGGGI" tabindex="0">
+          <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/esjS0A8hwfs?rel=0" data-title="esjS0A8hwfs" tabindex="0">
+          <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/n-sYjHOkwIk?rel=0" data-title="n-sYjHOkwIk" tabindex="0">
+          <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/818TmDjc_ak?rel=0" data-title="818TmDjc_ak" tabindex="0">
+          <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/GaGwd-NXyGM?rel=0" data-title="GaGwd-NXyGM" tabindex="0">
+          <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/VRSyYcPRws0?rel=0" data-title="VRSyYcPRws0" tabindex="0">
+          <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/FedBr0CyAlE?rel=0" data-title="FedBr0CyAlE" tabindex="0">
+          <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/fJYkXmAdkrQ?rel=0" data-title="fJYkXmAdkrQ" tabindex="0">
+          <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
+        </a>
+
+        <!-- BOTÃO da playlist completa como item do carrossel/fim -->
+        <div class="playlist-button-wrap" aria-hidden="false">
+          <a class="playlist-button"
+             href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U"
+             target="_blank" rel="noopener noreferrer">
+            Ver playlist completa
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="made-by">Desenvolvido por <strong>Daniel Almeida</strong></span>
+      </div>
+
+      <div class="footer-right">
+        <a class="social-link" href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <!-- ícone simples -->
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 .001 5.001A2.5 2.5 0 0 0 12 7.5zM18.7 6.3a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"/></svg>
+        </a>
+
+        <a class="social-link" href="https://www.threads.com/@nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Threads">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9 .77 0 1.52-.1 2.24-.3L21 22l-1.3-6.76A8.98 8.98 0 0 0 21 11a9 9 0 0 0-9-9zm-1 7v6l5 2 .6-3.1L11 9z"/></svg>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- Rodapé (mantive estilo simples que já tínhamos) -->
-  <footer>
-    <p>Desenvolvido por Daniel Almeida</p>
-    <div class="social-links">
-      <a href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <!-- ícone simples (pode trocar pelo SVG se preferir) -->
-        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-      </a>
-      <a href="https://www.threads.com/@nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Threads">
-        <img src="https://cdn-icons-png.flaticon.com/512/1216/1216922.png" alt="Threads">
-      </a>
     </div>
   </footer>
 </body>
