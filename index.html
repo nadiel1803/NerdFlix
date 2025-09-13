@@ -1,150 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="Assets/images.jpeg">
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>NerdFlix</title>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Fonte -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
-    <!-- JS (colocado no header conforme pediu; 'defer' evita bloqueio) -->
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NerdFlix</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Se tiver script.js adicione aqui:
+  <script src="script.js" defer></script>
+  -->
 </head>
 <body>
-    <header>NERDFLIX</header>
+  <header>
+    <h1>NERDFLIX</h1>
+  </header>
 
-    <main class="container">
+  <!-- Seção Principal -->
+  <section class="video-section">
+    <h2>PRINCIPAL</h2>
+    <div class="video-grid">
+      <a href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" target="_blank">
+        <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs">
+      </a>
+      <a href="https://youtu.be/0xxSoV9O_ig?si=23eA45p3IKCkVZLD" target="_blank">
+        <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig">
+      </a>
+      <!-- adicione mais itens aqui se quiser -->
+    </div>
+  </section>
 
-        <!-- CONTROLES (search e toggle size) -->
-        <div class="controls">
-            <input id="search" type="search" placeholder="Pesquisar vídeos (cole títulos/IDs)" aria-label="Pesquisar" />
-            <button id="toggleSize" class="btn small">Alternar tamanho das thumbs</button>
-        </div>
+  <!-- Seção Leon & Nilce -->
+  <section class="video-section">
+    <h2>LEON &amp; NILCE: FILMES</h2>
+    <div class="video-grid" id="leonNilceGrid">
+      <a href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" target="_blank">
+        <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
+      </a>
+      <a href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" target="_blank">
+        <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
+      </a>
+      <a href="https://youtu.be/n-sYjHOkwIk?si=qzzXt1YjoMR2nCQn" target="_blank">
+        <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
+      </a>
+      <a href="https://youtu.be/818TmDjc_ak?si=tZvDeZ6pLr06XHpD" target="_blank">
+        <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
+      </a>
+      <a href="https://youtu.be/GaGwd-NXyGM?si=JucLOwqMCuOXZY_p" target="_blank">
+        <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
+      </a>
+      <a href="https://youtu.be/VRSyYcPRws0?si=ObffTSL1VIZHnCnM" target="_blank">
+        <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
+      </a>
+      <a href="https://youtu.be/FedBr0CyAlE?si=sghI9zGMBsqCXL2c" target="_blank">
+        <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
+      </a>
+      <a href="https://youtu.be/fJYkXmAdkrQ?si=McuDO9zzHR1aBtLW" target="_blank">
+        <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
+      </a>
 
-        <!-- CHAMADA / PLAYER -->
-        <section class="chamada">
-            <div class="chamada-texto">
-                <h1 id="main-title">JVNQ e MOONKASE [+ MALENA] - <br> FLOW GAMES #07</h1>
-                <p id="main-desc">#jvnq #moonkase #flowgames #podcast</p>
-            </div>
+      <!-- botão que aparece no final (visual alinhado com grid) -->
+      <div class="playlist-button-wrap">
+        <a class="playlist-button"
+           href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U"
+           target="_blank" rel="noopener noreferrer">
+          Ver playlist completa
+        </a>
+      </div>
+    </div>
+  </section>
 
-            <div class="player-wrap">
-                <!-- iframe principal (o JS vai trocar o src quando clicar nas thumbs) -->
-                <iframe id="mainPlayer"
-                    src="https://www.youtube.com/embed/PSHSFlos6Ag?rel=0"
-                    title="Player principal"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                ></iframe>
-            </div>
-        </section>
-
-        <!-- PRIMEIRA SEÇÃO DE VÍDEOS -->
-        <section class="categoria" id="cat1">
-            <h2>Nerdices!</h2>
-            <div class="categoria-videos" data-category="Nerdices">
-                <a href="https://youtu.be/pf1IhjYktfs?si=zRFnglFqJi6zeE9v" class="thumb" data-video="https://www.youtube.com/embed/pf1IhjYktfs?rel=0" data-title="pf1IhjYktfs - Nerdice 1" tabindex="0">
-                    <img alt="pf1IhjYktfs - Nerdice 1" src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-
-                <a href="https://www.youtube.com/watch?v=MPwgnxRcX2s" class="thumb" data-video="https://www.youtube.com/embed/MPwgnxRcX2s?rel=0" data-title="MPwgnxRcX2s - Nerdice 2" tabindex="0">
-                    <img alt="MPwgnxRcX2s - Nerdice 2" src="https://i.ytimg.com/vi/MPwgnxRcX2s/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-
-                <a href="https://youtu.be/g48ISNw8sNY?si=QUT2lByrfqup1NmX" class="thumb" data-video="https://www.youtube.com/embed/g48ISNw8sNY?rel=0" data-title="g48ISNw8sNY - Nerdice 3" tabindex="0">
-                    <img alt="g48ISNw8sNY - Nerdice 3" src="https://i.ytimg.com/vi/g48ISNw8sNY/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-
-                <a href="https://www.youtube.com/watch?v=TWcuiI3ra7c&t=5137s" class="thumb" data-video="https://www.youtube.com/embed/TWcuiI3ra7c?rel=0" data-title="TWcuiI3ra7c - Nerdice 4" tabindex="0">
-                    <img alt="TWcuiI3ra7c - Nerdice 4" src="https://i.ytimg.com/vi/TWcuiI3ra7c/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-
-                <!-- novo vídeo que você pediu -->
-                <a href="https://youtu.be/0xxSoV9O_ig?si=23eA45p3IKCkVZLD" class="thumb" data-video="https://www.youtube.com/embed/0xxSoV9O_ig?rel=0" data-title="0xxSoV9O_ig - Nerdice 5" tabindex="0">
-                    <img alt="0xxSoV9O_ig - Nerdice 5" src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- SEGUNDA SEÇÃO DE VÍDEOS -->
-        <section class="categoria" id="cat2">
-            <h2>Nerdices 2!</h2>
-            <div class="categoria-videos" data-category="Nerdices 2">
-                <a href="https://youtu.be/wlpr0jpGGGI?si=x1T4sM3jqjF3VDKE" class="thumb" data-video="https://www.youtube.com/embed/wlpr0jpGGGI?rel=0" data-title="wlpr0jpGGGI" tabindex="0">
-                    <img alt="wlpr0jpGGGI" src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/esjS0A8hwfs?si=iTiPz07Wvd-H0Rl6" class="thumb" data-video="https://www.youtube.com/embed/esjS0A8hwfs?rel=0" data-title="esjS0A8hwfs" tabindex="0">
-                    <img alt="esjS0A8hwfs" src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/n-sYjHOkwIk?si=qzzXt1YjoMR2nCQn" class="thumb" data-video="https://www.youtube.com/embed/n-sYjHOkwIk?rel=0" data-title="n-sYjHOkwIk" tabindex="0">
-                    <img alt="n-sYjHOkwIk" src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/818TmDjc_ak?si=tZvDeZ6pLr06XHpD" class="thumb" data-video="https://www.youtube.com/embed/818TmDjc_ak?rel=0" data-title="818TmDjc_ak" tabindex="0">
-                    <img alt="818TmDjc_ak" src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/GaGwd-NXyGM?si=JucLOwqMCuOXZY_p" class="thumb" data-video="https://www.youtube.com/embed/GaGwd-NXyGM?rel=0" data-title="GaGwd-NXyGM" tabindex="0">
-                    <img alt="GaGwd-NXyGM" src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/VRSyYcPRws0?si=ObffTSL1VIZHnCnM" class="thumb" data-video="https://www.youtube.com/embed/VRSyYcPRws0?rel=0" data-title="VRSyYcPRws0" tabindex="0">
-                    <img alt="VRSyYcPRws0" src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/FedBr0CyAlE?si=sghI9zGMBsqCXL2c" class="thumb" data-video="https://www.youtube.com/embed/FedBr0CyAlE?rel=0" data-title="FedBr0CyAlE" tabindex="0">
-                    <img alt="FedBr0CyAlE" src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-                <a href="https://youtu.be/fJYkXmAdkrQ?si=McuDO9zzHR1aBtLW" class="thumb" data-video="https://www.youtube.com/embed/fJYkXmAdkrQ?rel=0" data-title="fJYkXmAdkrQ" tabindex="0">
-                    <img alt="fJYkXmAdkrQ" src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" />
-                    <span class="playIcon">▶</span>
-                </a>
-            </div>
-        </section>
-
-    </main>
-    
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-left">
-            <span class="made-by">Desenvolvido por <strong>Daniel Almeida</strong></span>
-            </div>
-        
-            <div class="footer-right">
-            <a class="social-link" href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Daniel (abre em nova aba)">
-                <!-- Instagram SVG -->
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="20" height="20">
-                <path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 .001 5.001A2.5 2.5 0 0 0 12 7.5zM18.7 6.3a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"/>
-                </svg>
-                <span class="sr-only">Instagram</span>
-            </a>
-        
-            <a class="social-link" href="https://www.threads.com/@nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Threads de Daniel (abre em nova aba)">
-                <!-- Threads-like SVG (simple thread bubble) -->
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="20" height="20">
-                  <path fill="currentColor" d="M12 2a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9 .77 0 1.52-.1 2.24-.3L21 22l-1.3-6.76A8.98 8.98 0 0 0 21 11a9 9 0 0 0-9-9zm-1 7v6l5 2 .6-3.1L11 9z"/>
-                </svg>
-                <span class="sr-only">Threads</span>
-              </a>
-            </div>
-        </div>
-    </footer>
-
+  <!-- Rodapé (mantive estilo simples que já tínhamos) -->
+  <footer>
+    <p>Desenvolvido por Daniel Almeida</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <!-- ícone simples (pode trocar pelo SVG se preferir) -->
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
+      <a href="https://www.threads.com/@nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Threads">
+        <img src="https://cdn-icons-png.flaticon.com/512/1216/1216922.png" alt="Threads">
+      </a>
+    </div>
+  </footer>
 </body>
 </html>
