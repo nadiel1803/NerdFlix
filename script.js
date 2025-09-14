@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
       rootEl.style.setProperty('--accent-strong', p.accentStrong);
       rootEl.style.setProperty('--thumb-hover-border', p.thumbBorder);
       localStorage.setItem(ACCENT_KEY, p.name);
-      // update any dynamic UI labels (ex: title attributes)
       openPaletteModalBtn.setAttribute('title', `Paleta atual: ${p.label}`);
     } catch (e) {}
   }
@@ -283,12 +282,28 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2) Busca: filtra thumbs pelos atributos href, alt, data-title
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
+  function filterThumbs(q = '') {
+    const ql = (q || '').trim().toLowerCase();
     thumbs.forEach(t => {
       const txt = (t.href + ' ' + (t.dataset.title || '') + ' ' + (t.querySelector('img')?.alt || '')).toLowerCase();
-      t.style.display = txt.includes(q) ? '' : 'none';
+      t.style.display = txt.includes(ql) ? '' : 'none';
     });
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+
+    // EASTER EGG trigger: se exatamente 'nerdflix' -> ativa o modo retrô
+    if (q === 'nerdflix') {
+      // limpa a busca (pra não filtrar thumbs) e ativa o easter egg
+      searchInput.value = '';
+      filterThumbs('');
+      activateRetroMode();
+      return;
+    }
+
+    // normal filter
+    filterThumbs(q);
   });
 
   // 3) Toggle de tamanho das thumbs
@@ -297,15 +312,112 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleSizeBtn.textContent = body.classList.contains('large-thumbs') ? 'Thumbs menores' : 'Alternar tamanho das thumbs';
   });
 
-  // Accessibility: allow Esc to stop video (remove src)
+  // Accessibility: allow Esc to stop video (remove src) or close modal / retro
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
-      // if modal open, close modal (handled above), else stop video
+      // if modal open, close modal
       if (paletteModal.getAttribute('aria-hidden') === 'false') {
         closePaletteModal();
-      } else {
-        player.src = ''; // para parar o vídeo
+        return;
       }
+      // if retro mode active, close it first
+      if (body.classList.contains('retro-mode')) {
+        deactivateRetroMode();
+        return;
+      }
+      // else stop video
+      player.src = '';
     }
   });
+
+  /* =========================
+     EASTER EGG: RETRO MODE
+     ========================= */
+
+  let retroTimeout = null;
+  function activateRetroMode() {
+    if (body.classList.contains('retro-mode')) {
+      // already active -> give a quick pulse and return
+      pulseRetroBanner('Já tá no modo retrô!');
+      return;
+    }
+    body.classList.add('retro-mode');
+    // show banner
+    showRetroBanner();
+    // optional: auto-disable after X minutes (here 5 minutes)
+    if (retroTimeout) clearTimeout(retroTimeout);
+    retroTimeout = setTimeout(() => {
+      deactivateRetroMode();
+    }, 1000 * 60 * 5);
+  }
+
+  function deactivateRetroMode() {
+    body.classList.remove('retro-mode');
+    removeRetroBanner();
+    if (retroTimeout) { clearTimeout(retroTimeout); retroTimeout = null; }
+  }
+
+  // create and show banner
+  function showRetroBanner() {
+    // avoid duplicates
+    if (document.querySelector('.retro-banner')) return;
+    const banner = document.createElement('div');
+    banner.className = 'retro-banner';
+    banner.setAttribute('role', 'status');
+    banner.innerHTML = `
+      <div>
+        <div class="title">EASTER EGG DESBLOQUEADO!</div>
+        <div class="sub">Modo Retrô ativado — bem vindo ao cinema pixel 👾</div>
+      </div>
+      <div class="hint">Pressione ESC para sair</div>
+      <button class="close-retro" aria-label="Fechar modo retrô">✕</button>
+    `;
+    document.body.appendChild(banner);
+
+    // click on close button
+    banner.querySelector('.close-retro').addEventListener('click', () => {
+      deactivateRetroMode();
+    });
+
+    // clicking banner also toggles off
+    banner.addEventListener('click', (ev) => {
+      // ignore clicks on the close button (already handled)
+      if (ev.target.closest('.close-retro')) return;
+      // clicking the banner background toggles off
+      deactivateRetroMode();
+    });
+
+    // small pulse when user hovers
+    banner.addEventListener('mouseenter', () => {
+      banner.animate([{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-4px) scale(1.02)' }], { duration: 220, easing: 'ease-out' });
+    });
+  }
+
+  function removeRetroBanner() {
+    const b = document.querySelector('.retro-banner');
+    if (!b) return;
+    b.remove();
+  }
+
+  function pulseRetroBanner(msg) {
+    // show tiny temporary banner message
+    const tmp = document.createElement('div');
+    tmp.className = 'retro-banner';
+    tmp.style.top = '8%';
+    tmp.style.background = 'linear-gradient(90deg, rgba(52,209,255,0.06), rgba(124,255,124,0.02))';
+    tmp.innerHTML = `<div><div class="title">${msg}</div></div>`;
+    document.body.appendChild(tmp);
+    setTimeout(() => tmp.remove(), 1300);
+  }
+
+  // Also expose a small quick toggle via console (handy while dev/testing)
+  window.__toggleRetro = () => {
+    if (body.classList.contains('retro-mode')) deactivateRetroMode();
+    else activateRetroMode();
+  };
+
+  /* =========================
+     END EASTER EGG
+     ========================= */
+
 });

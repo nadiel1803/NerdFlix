@@ -174,7 +174,7 @@ html[data-theme="light"] .site-footer { background: linear-gradient(180deg, rgba
 }
 .color-cycle:hover { transform: translateY(-3px); }
 
-/* PALETTE MODAL */
+/* PALETTE MODAL (styles kept earlier) */
 .palette-modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:80; }
 .palette-modal[aria-hidden="false"] { display:flex; }
 .palette-overlay {
@@ -199,50 +199,19 @@ html[data-theme="light"] .site-footer { background: linear-gradient(180deg, rgba
 .palette-body { padding: 6px 0 12px; color:var(--muted-text); }
 .palette-intro { margin:0 0 12px 0; font-size:13px; color:var(--muted-text); }
 
-/* palette list grid */
 .palette-list {
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap:12px;
 }
-
-/* each palette card */
-.palette-card {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:10px;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-  border: 1px solid rgba(255,255,255,0.03);
-  cursor:pointer;
-  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-}
+.palette-card { display:flex; align-items:center; gap:12px; padding:10px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border: 1px solid rgba(255,255,255,0.03); cursor:pointer; transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease; }
 .palette-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.06); }
-
-.palette-swatch {
-  width:72px;
-  height:45px;
-  border-radius:8px;
-  display:inline-grid;
-  grid-template-columns: 1fr 1fr;
-  gap:2px;
-  overflow:hidden;
-  border: 1px solid rgba(0,0,0,0.12);
-}
+.palette-swatch { width:72px; height:45px; border-radius:8px; display:inline-grid; grid-template-columns: 1fr 1fr; gap:2px; overflow:hidden; border: 1px solid rgba(0,0,0,0.12); }
 .palette-swatch .sw1, .palette-swatch .sw2 { height:100%; width:100%; display:block; }
 .palette-meta { display:flex; flex-direction:column; gap:6px; }
 .palette-name { font-weight:700; color:var(--text); font-size:14px; }
 .palette-desc { font-size:12px; color:var(--muted-text); }
-
-/* selected state */
-.palette-card.selected {
-  outline: 3px solid rgba(255,255,255,0.08);
-  transform: translateY(-4px) scale(1.01);
-  border-color: rgba(255,255,255,0.08);
-}
-
-/* palette footer */
+.palette-card.selected { outline: 3px solid rgba(255,255,255,0.08); transform: translateY(-4px) scale(1.01); border-color: rgba(255,255,255,0.08); }
 .palette-footer { display:flex; gap:8px; justify-content:flex-end; padding-top:12px; }
 
 /* thumbs large mode */
@@ -261,3 +230,110 @@ body.large-thumbs .categoria-videos img { height:260px; }
   .palette-swatch { width:56px; height:36px; }
   .theme-toggle .label { display:none; } /* economiza espaço no mobile */
 }
+
+/* =========================
+   RETRÔ / EASTER EGG STYLES
+   ========================= */
+
+/* retro mode base */
+body.retro-mode {
+  background: #020202;
+  color: #7CFF7C; /* greenish CRT text */
+  font-family: "Courier New", Courier, monospace;
+  letter-spacing: .6px;
+  transition: none; /* instant-y to feel retro */
+}
+
+/* scanlines overlay using pseudo-element on body */
+body.retro-mode::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.06) 51%);
+  background-size: 100% 4px;
+  mix-blend-mode: multiply;
+  z-index: 60;
+}
+
+/* subtle vignette / glow */
+body.retro-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.02), rgba(0,0,0,0.6));
+  z-index: 59;
+}
+
+/* neon accent override */
+body.retro-mode {
+  --accent: #34d1ff; /* cyan neon as main accent in retro */
+  --accent-strong: rgba(52,209,255,0.95);
+  --thumb-hover-border: rgba(52,209,255,0.9);
+}
+
+/* pixelate thumbnails */
+body.retro-mode .categoria-videos img {
+  image-rendering: pixelated;
+  filter: contrast(1.05) saturate(0.9);
+  height: 160px; /* slightly smaller look */
+}
+
+/* retro header */
+body.retro-mode header {
+  background: linear-gradient(180deg, rgba(0,0,0,0.98), rgba(3,3,3,0.95));
+  border-bottom-color: var(--accent);
+}
+body.retro-mode header h1 {
+  font-family: "Courier New", Courier, monospace;
+  font-weight:700;
+  text-shadow: 0 0 10px rgba(52,209,255,0.12), 0 0 20px rgba(52,209,255,0.06);
+}
+
+/* retro buttons glow */
+body.retro-mode .btn, body.retro-mode .theme-toggle, body.retro-mode .color-cycle {
+  box-shadow: 0 6px 18px rgba(52,209,255,0.06), 0 0 12px rgba(52,209,255,0.02);
+  border-color: rgba(52,209,255,0.12);
+}
+
+/* retro banner (Easter unlocked) */
+.retro-banner {
+  position: fixed;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%) translateY(-10px);
+  z-index: 120;
+  background: linear-gradient(90deg, rgba(52,209,255,0.08), rgba(124,255,124,0.04));
+  border: 1px solid rgba(52,209,255,0.18);
+  color: #bfffbf;
+  font-family: "Courier New", Courier, monospace;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  display:flex;
+  gap:12px;
+  align-items:center;
+  animation: retroBannerIn .5s ease both;
+}
+.retro-banner .title { font-weight:700; font-size:14px; letter-spacing:1px; }
+.retro-banner .sub { font-size:12px; color:rgba(191,255,191,0.9); opacity:0.95; }
+.retro-banner .close-retro {
+  margin-left:8px;
+  background: transparent;
+  border:1px solid rgba(255,255,255,0.03);
+  color:var(--text);
+  padding:6px 8px;
+  border-radius:8px;
+  cursor:pointer;
+}
+@keyframes retroBannerIn {
+  from { transform: translateX(-50%) translateY(-20px) scale(.98); opacity:0; }
+  to { transform: translateX(-50%) translateY(0) scale(1); opacity:1; }
+}
+
+/* small helper to hint ESC */
+.retro-banner .hint { font-size:11px; opacity:0.8; color:rgba(191,255,191,0.8); margin-left:6px; }
+
+/* ensure modal still sits above scanlines but below banner */
+.palette-modal { z-index: 80; }
