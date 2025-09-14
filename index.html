@@ -8,7 +8,6 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- YouTube Iframe API (load async via JS below) -->
   <!-- JS -->
   <script src="script.js" defer></script>
 </head>
@@ -17,6 +16,7 @@
     <div class="header-inner">
       <h1>NERDFLIX</h1>
 
+      <!-- Header actions: theme toggle + open color modal -->
       <div class="header-actions">
         <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema (claro / escuro)" title="Alternar tema">
           <span class="icon" aria-hidden="true">
@@ -24,13 +24,16 @@
               <circle cx="12" cy="12" r="4"></circle>
               <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
             </svg>
+
             <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:none">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </span>
+
           <span class="label">Clarear</span>
         </button>
 
+        <!-- COLOR MODAL OPEN button -->
         <button id="openPaletteModal" class="color-cycle" aria-haspopup="dialog" aria-controls="paletteModal" aria-label="Abrir seletor de paletas" title="Escolher paleta de cores">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3a9 9 0 1 0 9 9A9 9 0 0 0 12 3z"></path>
@@ -49,74 +52,30 @@
       <button id="toggleSize" class="btn small">Alternar tamanho das thumbs</button>
     </div>
 
-    <!-- PLAYER SECTION (modernizada) -->
-    <section class="player-area">
-      <div class="player-column">
-        <div class="player-wrap" id="playerWrap">
-          <!-- YouTube player will be injected here by the API -->
-          <div id="mainPlayer" class="yt-player" aria-label="Player principal"></div>
-
-          <!-- custom controls -->
-          <div class="controls-bar" aria-label="Controles do player">
-            <button id="btnPlay" class="ctrl play" aria-label="Play/Pause">►</button>
-
-            <div class="progress-wrap" aria-hidden="false">
-              <div id="progress" class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
-                <div id="progressFilled" class="progress-filled"></div>
-              </div>
-              <div class="time">
-                <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
-              </div>
-            </div>
-
-            <div class="right-controls">
-              <button id="btnTheater" class="ctrl" title="Modo Cinema" aria-label="Modo cinema">🎬</button>
-
-              <label class="sr-only" for="speedSelect">Velocidade</label>
-              <select id="speedSelect" aria-label="Velocidade de reprodução">
-                <option value="0.5">0.5x</option>
-                <option value="0.75">0.75x</option>
-                <option value="1" selected>1x</option>
-                <option value="1.25">1.25x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2x</option>
-              </select>
-
-              <label class="sr-only" for="volumeRange">Volume</label>
-              <input id="volumeRange" type="range" min="0" max="100" value="100" aria-label="Volume">
-
-              <button id="btnAutoplay" class="ctrl" aria-pressed="false" title="Alternar Autoplay">∞</button>
-              <button id="btnShare" class="ctrl" title="Copiar link do vídeo" aria-label="Copiar link do vídeo">🔗</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- info area -->
-        <div class="video-info">
-          <h2 id="main-title">JVNQ e MOONKASE [+ MALENA] - FLOW GAMES #07</h2>
-          <p id="main-desc">#jvnq #moonkase #flowgames #podcast</p>
-
-          <div class="meta-row">
-            <span class="meta-item">👀 <span id="viewCount">—</span></span>
-            <span class="meta-item">📅 <span id="publishDate">—</span></span>
-            <span class="meta-item">⏱️ Duração: <span id="metaDuration">—</span></span>
-          </div>
-        </div>
+    <!-- CHAMADA / PLAYER PRINCIPAL -->
+    <section class="chamada">
+      <div class="chamada-texto">
+        <!-- estes IDs são usados pelo script.js -->
+        <h2 id="main-title">JVNQ e MOONKASE [+ MALENA] - FLOW GAMES #07</h2>
+        <p id="main-desc">#jvnq #moonkase #flowgames #podcast</p>
       </div>
 
-      <!-- recommendations column -->
-      <aside class="recommendations" aria-label="Vídeos recomendados">
-        <h3>Recomendados</h3>
-        <div id="recommendList" class="recommend-list">
-          <!-- populated from existing thumbs via JS -->
-        </div>
-      </aside>
+      <div class="player-wrap">
+        <!-- iframe principal com id esperado pelo script.js -->
+        <iframe id="mainPlayer"
+                src="https://www.youtube.com/embed/PSHSFlos6Ag?rel=0"
+                title="Player principal"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+      </div>
     </section>
 
-    <!-- CATEGORIAS / CARROSSEL (mantidos) -->
+    <!-- SEÇÃO 1 (agora "PRINCIPAL") -->
     <section class="categoria" id="principal">
       <h3>PRINCIPAL</h3>
       <div class="categoria-videos" data-category="PRINCIPAL">
+        <!-- thumbs precisam ter class="thumb" e data-video com URL embed -->
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/pf1IhjYktfs?rel=0" data-title="pf1IhjYktfs - Nerdice 1" tabindex="0">
           <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs - Nerdice 1">
         </a>
@@ -125,23 +84,53 @@
           <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig - Novo Vídeo">
         </a>
 
-        <!-- ... demais thumbs ... -->
+        <!-- pode adicionar mais thumbs aqui seguindo o mesmo formato -->
       </div>
     </section>
 
+    <!-- SEÇÃO 2 (agora "LEON & NILCE: FILMES") -->
     <section class="categoria" id="leonNilce">
       <h3>LEON &amp; NILCE: FILMES</h3>
       <div class="categoria-videos" data-category="LEON & NILCE">
-        <!-- thumbs (mantive seus elementos para o recommend panel) -->
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/wlpr0jpGGGI?rel=0" data-title="wlpr0jpGGGI" tabindex="0">
           <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
         </a>
+
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/esjS0A8hwfs?rel=0" data-title="esjS0A8hwfs" tabindex="0">
           <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
         </a>
-        <!-- ... -->
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/n-sYjHOkwIk?rel=0" data-title="n-sYjHOkwIk" tabindex="0">
+          <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/818TmDjc_ak?rel=0" data-title="818TmDjc_ak" tabindex="0">
+          <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/GaGwd-NXyGM?rel=0" data-title="GaGwd-NXyGM" tabindex="0">
+          <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/VRSyYcPRws0?rel=0" data-title="VRSyYcPRws0" tabindex="0">
+          <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/FedBr0CyAlE?rel=0" data-title="FedBr0CyAlE" tabindex="0">
+          <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/fJYkXmAdkrQ?rel=0" data-title="fJYkXmAdkrQ" tabindex="0">
+          <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
+        </a>
+
+        <!-- BOTÃO da playlist completa como item do carrossel/fim -->
         <div class="playlist-button-wrap" aria-hidden="false">
-          <a class="playlist-button" href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U" target="_blank" rel="noopener noreferrer">Ver playlist completa</a>
+          <a class="playlist-button"
+             href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U"
+             target="_blank" rel="noopener noreferrer">
+            Ver playlist completa
+          </a>
         </div>
       </div>
     </section>
@@ -151,6 +140,7 @@
   <!-- PALETTE MODAL (inserido no DOM, hidden por padrão) -->
   <div id="paletteModal" class="palette-modal" role="dialog" aria-modal="true" aria-labelledby="paletteModalTitle" aria-hidden="true" tabindex="-1">
     <div class="palette-overlay" data-action="close"></div>
+
     <div class="palette-panel" role="document">
       <header class="palette-header">
         <h2 id="paletteModalTitle">Escolher paleta de cores</h2>
@@ -159,7 +149,10 @@
 
       <div class="palette-body">
         <p class="palette-intro">Clique em uma paleta para aplicar — sua escolha será salva.</p>
-        <div id="paletteList" class="palette-list" role="list" aria-label="Paletas disponíveis"></div>
+
+        <div id="paletteList" class="palette-list" role="list" aria-label="Paletas disponíveis">
+          <!-- itens preenchidos via JS -->
+        </div>
       </div>
 
       <footer class="palette-footer">
@@ -178,6 +171,7 @@
 
       <div class="footer-right">
         <a class="social-link" href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <!-- ícone simples -->
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 .001 5.001A2.5 2.5 0 0 0 12 7.5zM18.7 6.3a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"/></svg>
         </a>
 
