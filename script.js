@@ -11,14 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
 
   const themeToggleBtn = document.getElementById('themeToggle');
-  const colorCycleBtn = document.getElementById('colorCycle');
+  const openPaletteModalBtn = document.getElementById('openPaletteModal');
+  const paletteModal = document.getElementById('paletteModal');
+  const paletteListEl = document.getElementById('paletteList');
+  const closePaletteModalBtn = document.getElementById('closePaletteModal');
+  const applyPaletteBtn = document.getElementById('applyPaletteBtn');
+  const resetPaletteBtn = document.getElementById('resetPaletteBtn');
   const rootEl = document.documentElement; // usamos data-theme no <html>
 
   /* -----------------------
      THEME: init / toggle / persist
      ----------------------- */
   const THEME_KEY = 'nerdflix-theme'; // values: "dark" | "light"
-  const ACCENT_KEY = 'nerdflix-accent'; // value: palette index or name
+  const ACCENT_KEY = 'nerdflix-accent'; // value: palette name
 
   function applyTheme(theme) {
     if (theme === 'light') {
@@ -58,27 +63,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* -----------------------
-     COLOR CYCLE: define paletas e aplica
+     COLOR PALETTES (source of truth)
      ----------------------- */
   const palettes = [
-    { name: 'vermelho', accent: '#E42A2A', accentStrong: 'rgba(228,42,42,0.95)', thumbBorder: 'rgba(228,42,42,0.9)' },
-    { name: 'azul',     accent: '#2B8BF4', accentStrong: 'rgba(43,139,244,0.95)', thumbBorder: 'rgba(43,139,244,0.9)' },
-    { name: 'verde',    accent: '#28C76F', accentStrong: 'rgba(40,199,111,0.95)', thumbBorder: 'rgba(40,199,111,0.9)' },
-    { name: 'roxo',     accent: '#8E44FF', accentStrong: 'rgba(142,68,255,0.95)', thumbBorder: 'rgba(142,68,255,0.9)' },
-    { name: 'laranja',  accent: '#FF7A2D', accentStrong: 'rgba(255,122,45,0.95)', thumbBorder: 'rgba(255,122,45,0.9)' }
+    { name: 'vermelho', label: 'Vermelho', accent: '#E42A2A', accentStrong: 'rgba(228,42,42,0.95)', thumbBorder: 'rgba(228,42,42,0.9)' },
+    { name: 'azul',     label: 'Azul',    accent: '#2B8BF4', accentStrong: 'rgba(43,139,244,0.95)', thumbBorder: 'rgba(43,139,244,0.9)' },
+    { name: 'verde',    label: 'Verde',   accent: '#28C76F', accentStrong: 'rgba(40,199,111,0.95)', thumbBorder: 'rgba(40,199,111,0.9)' },
+    { name: 'roxo',     label: 'Roxo',    accent: '#8E44FF', accentStrong: 'rgba(142,68,255,0.95)', thumbBorder: 'rgba(142,68,255,0.9)' },
+    { name: 'laranja',  label: 'Laranja', accent: '#FF7A2D', accentStrong: 'rgba(255,122,45,0.95)', thumbBorder: 'rgba(255,122,45,0.9)' }
   ];
 
-  // aplica paleta por índice (ou por objeto)
-  function applyPalette(indexOrObj) {
-    let p;
-    if (typeof indexOrObj === 'number') p = palettes[indexOrObj % palettes.length];
-    else p = indexOrObj;
+  // aplica paleta por índice ou por objeto (altera variáveis CSS)
+  function applyPaletteByIndex(index) {
+    const p = palettes[index % palettes.length];
+    applyPalette(p);
+  }
+  function applyPalette(p) {
     if (!p) return;
     try {
       rootEl.style.setProperty('--accent', p.accent);
       rootEl.style.setProperty('--accent-strong', p.accentStrong);
       rootEl.style.setProperty('--thumb-hover-border', p.thumbBorder);
       localStorage.setItem(ACCENT_KEY, p.name);
+      // update any dynamic UI labels (ex: title attributes)
+      openPaletteModalBtn.setAttribute('title', `Paleta atual: ${p.label}`);
     } catch (e) {}
   }
 
@@ -91,26 +99,156 @@ document.addEventListener('DOMContentLoaded', () => {
       if (found) { applyPalette(found); return; }
     }
     // default (index 0 = vermelho)
-    applyPalette(0);
+    applyPalette(palettes[0]);
   })();
 
-  // cycle to next palette on click
-  colorCycleBtn.addEventListener('click', () => {
-    // find current name
-    const currentName = localStorage.getItem(ACCENT_KEY);
-    const idx = palettes.findIndex(p => p.name === currentName);
-    const nextIndex = (idx + 1) % palettes.length;
-    applyPalette(nextIndex);
-    // feedback rápido: pulse
-    colorCycleBtn.animate([{ transform: 'scale(1.04)' }, { transform: 'scale(1)' }], { duration: 160, easing: 'ease-out' });
-    // atualizar título/tooltip pra indicar a paleta aplicada (opcional)
-    colorCycleBtn.setAttribute('title', `Paleta: ${palettes[nextIndex].name}`);
+  /* -----------------------
+     PALETTE MODAL: render + behavior
+     ----------------------- */
+
+  let selectedPaletteName = localStorage.getItem(ACCENT_KEY) || palettes[0].name;
+  let lastFocusedBeforeModal = null;
+
+  function buildPaletteList() {
+    paletteListEl.innerHTML = '';
+    palettes.forEach((p, i) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'palette-card';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('data-palette', p.name);
+      card.setAttribute('aria-pressed', String(p.name === selectedPaletteName));
+      card.tabIndex = 0;
+
+      if (p.name === selectedPaletteName) card.classList.add('selected');
+
+      // swatch
+      const sw = document.createElement('span');
+      sw.className = 'palette-swatch';
+      const sw1 = document.createElement('span'); sw1.className = 'sw1'; sw1.style.background = p.accent;
+      const sw2 = document.createElement('span'); sw2.className = 'sw2'; sw2.style.background = p.accentStrong;
+      sw.appendChild(sw1); sw.appendChild(sw2);
+
+      // meta
+      const meta = document.createElement('div');
+      meta.className = 'palette-meta';
+      const nameEl = document.createElement('div'); nameEl.className = 'palette-name'; nameEl.textContent = p.label;
+      const descEl = document.createElement('div'); descEl.className = 'palette-desc'; descEl.textContent = p.name;
+      meta.appendChild(nameEl); meta.appendChild(descEl);
+
+      card.appendChild(sw);
+      card.appendChild(meta);
+
+      // click handler: mark selected but don't close automatically (user presses Apply)
+      card.addEventListener('click', () => {
+        // remove previous selected
+        const prev = paletteListEl.querySelector('.palette-card.selected');
+        if (prev) { prev.classList.remove('selected'); prev.setAttribute('aria-pressed', 'false'); }
+        card.classList.add('selected');
+        card.setAttribute('aria-pressed', 'true');
+        selectedPaletteName = p.name;
+      });
+
+      // keyboard: Enter selects, Arrow keys navigate
+      card.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          card.click();
+        } else if (ev.key === 'ArrowRight' || ev.key === 'ArrowDown') {
+          ev.preventDefault();
+          focusNextCard(i);
+        } else if (ev.key === 'ArrowLeft' || ev.key === 'ArrowUp') {
+          ev.preventDefault();
+          focusPrevCard(i);
+        }
+      });
+
+      paletteListEl.appendChild(card);
+    });
+  }
+
+  function focusNextCard(currentIndex) {
+    const nodes = Array.from(paletteListEl.querySelectorAll('.palette-card'));
+    const next = nodes[(currentIndex + 1) % nodes.length];
+    next.focus();
+  }
+  function focusPrevCard(currentIndex) {
+    const nodes = Array.from(paletteListEl.querySelectorAll('.palette-card'));
+    const prev = nodes[(currentIndex - 1 + nodes.length) % nodes.length];
+    prev.focus();
+  }
+
+  function openPaletteModal() {
+    buildPaletteList();
+    lastFocusedBeforeModal = document.activeElement;
+    paletteModal.setAttribute('aria-hidden', 'false');
+    paletteModal.style.display = 'flex';
+    // focus the selected card
+    requestAnimationFrame(() => {
+      const sel = paletteListEl.querySelector(`.palette-card[data-palette="${selectedPaletteName}"]`) || paletteListEl.querySelector('.palette-card');
+      if (sel) sel.focus();
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    });
+    // trap focus minimally by listening for focus outside
+    document.addEventListener('focus', enforceFocus, true);
+  }
+
+  function closePaletteModal() {
+    paletteModal.setAttribute('aria-hidden', 'true');
+    paletteModal.style.display = 'none';
+    document.body.style.overflow = '';
+    document.removeEventListener('focus', enforceFocus, true);
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+      lastFocusedBeforeModal.focus();
+    } else {
+      openPaletteModalBtn.focus();
+    }
+  }
+
+  function enforceFocus(ev) {
+    if (!paletteModal.contains(ev.target)) {
+      ev.stopPropagation();
+      const sel = paletteListEl.querySelector(`.palette-card[data-palette="${selectedPaletteName}"]`) || paletteListEl.querySelector('.palette-card');
+      if (sel) sel.focus();
+    }
+  }
+
+  // overlay and close button
+  paletteModal.addEventListener('click', (ev) => {
+    if (ev.target && ev.target.matches('[data-action="close"], .palette-overlay')) {
+      closePaletteModal();
+    }
+  });
+  closePaletteModalBtn.addEventListener('click', closePaletteModal);
+
+  // Apply button: actually set the palette and close
+  applyPaletteBtn.addEventListener('click', () => {
+    const sel = palettes.find(p => p.name === selectedPaletteName) || palettes[0];
+    applyPalette(sel);
+    closePaletteModal();
   });
 
-  colorCycleBtn.addEventListener('keydown', (ev) => {
+  // Reset to default
+  resetPaletteBtn.addEventListener('click', () => {
+    selectedPaletteName = palettes[0].name;
+    applyPalette(palettes[0]);
+    buildPaletteList(); // update visuals
+  });
+
+  // keyboard: Esc closes modal; Enter handled on cards
+  document.addEventListener('keydown', (ev) => {
+    if (paletteModal.getAttribute('aria-hidden') === 'false' && ev.key === 'Escape') {
+      closePaletteModal();
+    }
+  });
+
+  openPaletteModalBtn.addEventListener('click', () => {
+    openPaletteModal();
+  });
+  openPaletteModalBtn.addEventListener('keydown', (ev) => {
     if (ev.key === 'Enter' || ev.key === ' ') {
       ev.preventDefault();
-      colorCycleBtn.click();
+      openPaletteModal();
     }
   });
 
@@ -162,7 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Accessibility: allow Esc to stop video (remove src)
   document.addEventListener('keydown', (ev) => {
     if (ev.key === 'Escape') {
-      player.src = ''; // para parar o vídeo
+      // if modal open, close modal (handled above), else stop video
+      if (paletteModal.getAttribute('aria-hidden') === 'false') {
+        closePaletteModal();
+      } else {
+        player.src = ''; // para parar o vídeo
+      }
     }
   });
 });

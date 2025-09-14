@@ -8,7 +8,7 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- JS  -->
+  <!-- JS -->
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
     <div class="header-inner">
       <h1>NERDFLIX</h1>
 
-      <!-- Header actions: theme toggle + color cycle -->
+      <!-- Header actions: theme toggle + open color modal -->
       <div class="header-actions">
         <button id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Alternar tema (claro / escuro)" title="Alternar tema">
           <span class="icon" aria-hidden="true">
@@ -33,8 +33,8 @@
           <span class="label">Clarear</span>
         </button>
 
-        <!-- COLOR CYCLE BUTTON (substitui o botão do Instagram no header) -->
-        <button id="colorCycle" class="color-cycle" aria-label="Trocar paleta de cores" title="Trocar paleta de cores">
+        <!-- COLOR MODAL OPEN button -->
+        <button id="openPaletteModal" class="color-cycle" aria-haspopup="dialog" aria-controls="paletteModal" aria-label="Abrir seletor de paletas" title="Escolher paleta de cores">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 3a9 9 0 1 0 9 9A9 9 0 0 0 12 3z"></path>
             <circle cx="12" cy="12" r="3"></circle>
@@ -136,6 +136,31 @@
     </section>
 
   </main>
+
+  <!-- PALETTE MODAL (inserido no DOM, hidden por padrão) -->
+  <div id="paletteModal" class="palette-modal" role="dialog" aria-modal="true" aria-labelledby="paletteModalTitle" aria-hidden="true" tabindex="-1">
+    <div class="palette-overlay" data-action="close"></div>
+
+    <div class="palette-panel" role="document">
+      <header class="palette-header">
+        <h2 id="paletteModalTitle">Escolher paleta de cores</h2>
+        <button id="closePaletteModal" class="modal-close" aria-label="Fechar seletor">✕</button>
+      </header>
+
+      <div class="palette-body">
+        <p class="palette-intro">Clique em uma paleta para aplicar — sua escolha será salva.</p>
+
+        <div id="paletteList" class="palette-list" role="list" aria-label="Paletas disponíveis">
+          <!-- itens preenchidos via JS -->
+        </div>
+      </div>
+
+      <footer class="palette-footer">
+        <button id="applyPaletteBtn" class="btn">Aplicar e fechar</button>
+        <button id="resetPaletteBtn" class="btn small" title="Restaurar padrão">Restaurar padrão</button>
+      </footer>
+    </div>
+  </div>
 
   <!-- RODAPÉ -->
   <footer class="site-footer">
