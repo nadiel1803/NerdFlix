@@ -15,7 +15,7 @@ body {
   --card: #0b0b0b;
   --text: #ffffff;
   --muted-text: rgba(255,255,255,0.9);
-  --accent: rgb(228,42,42);
+  --accent: rgb(228,42,42);       /* default vermelho */
   --accent-strong: rgba(228,42,42,0.95);
   --input-bg: #111111;
   --thumb-hover-border: rgba(228,42,42,0.9);
@@ -30,8 +30,7 @@ html[data-theme="light"], body[data-theme="light"] {
   --card: #ffffff;
   --text: #0b1220;
   --muted-text: rgba(11,18,32,0.88);
-  --accent: rgb(228,42,42); /* vermelho continua */
-  --accent-strong: rgba(228,42,42,0.95);
+  /* --accent will be overridden by color-cycler via JS or default var */
   --input-bg: #ffffff;
   --thumb-hover-border: rgba(228,42,42,0.95);
   --shadow: 0 8px 30px rgba(11,18,32,0.06);
@@ -54,8 +53,6 @@ header {
   z-index: 30;
   backdrop-filter: blur(6px);
 }
-
-/* when in light theme, adjust header gradient to soft */
 html[data-theme="light"] header {
   background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.97));
 }
@@ -163,8 +160,20 @@ html[data-theme="light"] .site-footer { background: linear-gradient(180deg, rgba
 .theme-toggle .label { font-size:13px; font-weight:600; }
 .theme-toggle:hover { transform: translateY(-3px); background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); }
 
-/* small social in header */
-.header-actions .social-link.small { width:36px; height:36px; }
+/* COLOR CYCLE button */
+.color-cycle {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 10px;
+  border-radius:8px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer;
+  transition: transform .12s ease, border-color .18s ease;
+}
+.color-cycle:hover { transform: translateY(-3px); }
 
 /* active states (light/dark icons) */
 html[data-theme="light"] .icon-sun { display:none; }
