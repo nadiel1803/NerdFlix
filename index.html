@@ -56,13 +56,11 @@
     <!-- CHAMADA / PLAYER PRINCIPAL -->
     <section class="chamada">
       <div class="chamada-texto">
-        <!-- estes IDs são usados pelo script.js -->
         <h2 id="main-title">JVNQ e MOONKASE [+ MALENA] - FLOW GAMES #07</h2>
         <p id="main-desc">#jvnq #moonkase #flowgames #podcast</p>
       </div>
 
       <div class="player-wrap">
-        <!-- iframe principal com id esperado pelo script.js -->
         <iframe id="mainPlayer"
                 src="https://www.youtube.com/embed/PSHSFlos6Ag?rel=0"
                 title="Player principal"
@@ -72,11 +70,10 @@
       </div>
     </section>
 
-    <!-- SEÇÃO 1 (agora "PRINCIPAL") -->
+    <!-- SEÇÃO 1 -->
     <section class="categoria" id="principal">
       <h3>PRINCIPAL</h3>
       <div class="categoria-videos" data-category="PRINCIPAL">
-        <!-- thumbs precisam ter class="thumb" e data-video com URL embed -->
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/pf1IhjYktfs?rel=0" data-title="pf1IhjYktfs - Nerdice 1" tabindex="0">
           <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs - Nerdice 1">
         </a>
@@ -84,15 +81,13 @@
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/0xxSoV9O_ig?rel=0" data-title="0xxSoV9O_ig - Novo Vídeo" tabindex="0">
           <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig - Novo Vídeo">
         </a>
-
-        <!-- pode adicionar mais thumbs aqui seguindo o mesmo formato -->
       </div>
     </section>
 
-    <!-- SEÇÃO 2 (agora "LEON & NILCE: FILMES") -->
-    <section class="categoria" id="leonNilce">
+    <!-- SEÇÃO 2 -->
+    <section class="categoria" id="leon-nilce-filmes">
       <h3>LEON &amp; NILCE: FILMES</h3>
-      <div class="categoria-videos" data-category="LEON & NILCE">
+      <div class="categoria-videos" data-category="LEON & NILCE: FILMES">
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/wlpr0jpGGGI?rel=0" data-title="wlpr0jpGGGI" tabindex="0">
           <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
         </a>
@@ -125,7 +120,6 @@
           <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
         </a>
 
-        <!-- BOTÃO da playlist completa como item do carrossel/fim -->
         <div class="playlist-button-wrap" aria-hidden="false">
           <a class="playlist-button"
              href="https://youtube.com/playlist?list=PLYEd-7fnFtjX4xfwKcR2SkQGrRuoIipIA&si=AjQVj7qKSJm-U87U"
@@ -136,9 +130,27 @@
       </div>
     </section>
 
+    <!-- SEÇÃO 3 -->
+    <section class="categoria" id="repo-beamoon">
+      <h3>R.E.P.O. - BEAMOON</h3>
+      <div class="categoria-videos" data-category="R.E.P.O. - BEAMOON">
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/BlIgyMYwkCM?rel=0" data-title="BlIgyMYwkCM" tabindex="0">
+          <img src="https://i.ytimg.com/vi/BlIgyMYwkCM/hqdefault.jpg" alt="BlIgyMYwkCM">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/IwQShnMhcfs?rel=0" data-title="IwQShnMhcfs" tabindex="0">
+          <img src="https://i.ytimg.com/vi/IwQShnMhcfs/hqdefault.jpg" alt="IwQShnMhcfs">
+        </a>
+
+        <a class="thumb" href="#" data-video="https://www.youtube.com/embed/Cat9v2Wigzk?rel=0" data-title="Cat9v2Wigzk" tabindex="0">
+          <img src="https://i.ytimg.com/vi/Cat9v2Wigzk/hqdefault.jpg" alt="Cat9v2Wigzk">
+        </a>
+      </div>
+    </section>
+
   </main>
 
-  <!-- PALETTE MODAL (inserido no DOM, hidden por padrão) -->
+  <!-- PALETTE MODAL -->
   <div id="paletteModal" class="palette-modal" role="dialog" aria-modal="true" aria-labelledby="paletteModalTitle" aria-hidden="true" tabindex="-1">
     <div class="palette-overlay" data-action="close"></div>
 
@@ -172,7 +184,6 @@
 
       <div class="footer-right">
         <a class="social-link" href="https://www.instagram.com/nadiel1803" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <!-- ícone simples -->
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 .001 5.001A2.5 2.5 0 0 0 12 7.5zM18.7 6.3a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"/></svg>
         </a>
 
