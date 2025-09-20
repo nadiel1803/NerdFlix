@@ -1,7 +1,20 @@
-// script.js — carregado com defer no <head>
+// script.js — completo (original + Supabase auth integrado)
+// Carregado com defer no <head>
 
-// Espera o DOM
+// CONFIGURAÇÕES DO SUPABASE (já com as chaves que você passou)
+const SUPABASE_URL = 'https://iqootgumqxwscsrwagpc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb290Z3VtcXh3c2NzcndhZ3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzODg4MDQsImV4cCI6MjA3Mzk2NDgwNH0.8GC166Vrjmt4dphVoma49aJ7asmYGhBwXIw0k14BAGM';
+
+// cria cliente Supabase usando o global exposto pelo UMD CDN
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log('supabaseClient ok?', !!supabaseClient);
+
+// MAIN: espera o DOM
 document.addEventListener('DOMContentLoaded', () => {
+  /* =========================
+     ELEMENTOS / VARIÁVEIS GLOBAIS
+     ========================= */
   const thumbs = Array.from(document.querySelectorAll('.thumb'));
   const player = document.getElementById('mainPlayer');
   const mainTitle = document.getElementById('main-title');
@@ -19,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetPaletteBtn = document.getElementById('resetPaletteBtn');
   const rootEl = document.documentElement; // usamos data-theme no <html>
 
-  /* -----------------------
+  /* =========================
      THEME: init / toggle / persist
-     ----------------------- */
+     ========================= */
   const THEME_KEY = 'nerdflix-theme'; // values: "dark" | "light"
   const ACCENT_KEY = 'nerdflix-accent'; // value: palette name
 
@@ -29,11 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (theme === 'light') {
       rootEl.setAttribute('data-theme', 'light');
       themeToggleBtn.setAttribute('aria-pressed', 'true');
-      themeToggleBtn.querySelector('.label').textContent = 'Escurecer';
+      const lbl = themeToggleBtn.querySelector('.label'); if (lbl) lbl.textContent = 'Escurecer';
     } else {
       rootEl.setAttribute('data-theme', 'dark');
       themeToggleBtn.setAttribute('aria-pressed', 'false');
-      themeToggleBtn.querySelector('.label').textContent = 'Clarear';
+      const lbl = themeToggleBtn.querySelector('.label'); if (lbl) lbl.textContent = 'Clarear';
     }
     try { localStorage.setItem(THEME_KEY, theme); } catch (e) {}
   }
@@ -49,22 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })();
 
-  themeToggleBtn.addEventListener('click', () => {
-    const current = rootEl.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    const next = current === 'light' ? 'dark' : 'light';
-    applyTheme(next);
-  });
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const current = rootEl.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+    });
 
-  themeToggleBtn.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Enter' || ev.key === ' ') {
-      ev.preventDefault();
-      themeToggleBtn.click();
-    }
-  });
+    themeToggleBtn.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        themeToggleBtn.click();
+      }
+    });
+  }
 
-  /* -----------------------
-     COLOR PALETTES (source of truth)
-     ----------------------- */
+  /* =========================
+     COLOR PALETTES
+     ========================= */
   const palettes = [
     { name: 'vermelho', label: 'Vermelho', accent: '#E42A2A', accentStrong: 'rgba(228,42,42,0.95)', thumbBorder: 'rgba(228,42,42,0.9)' },
     { name: 'azul',     label: 'Azul',    accent: '#2B8BF4', accentStrong: 'rgba(43,139,244,0.95)', thumbBorder: 'rgba(43,139,244,0.9)' },
@@ -73,11 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'laranja',  label: 'Laranja', accent: '#FF7A2D', accentStrong: 'rgba(255,122,45,0.95)', thumbBorder: 'rgba(255,122,45,0.9)' }
   ];
 
-  // aplica paleta por índice ou por objeto (altera variáveis CSS)
-  function applyPaletteByIndex(index) {
-    const p = palettes[index % palettes.length];
-    applyPalette(p);
-  }
+  function applyPaletteByIndex(index) { applyPalette(palettes[index % palettes.length]); }
   function applyPalette(p) {
     if (!p) return;
     try {
@@ -85,11 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
       rootEl.style.setProperty('--accent-strong', p.accentStrong);
       rootEl.style.setProperty('--thumb-hover-border', p.thumbBorder);
       localStorage.setItem(ACCENT_KEY, p.name);
-      openPaletteModalBtn.setAttribute('title', `Paleta atual: ${p.label}`);
-    } catch (e) {}
+      if (openPaletteModalBtn) openPaletteModalBtn.setAttribute('title', `Paleta atual: ${p.label}`);
+    } catch (e) { console.warn('applyPalette error', e); }
   }
 
-  // init palette from localStorage (by name)
   (function initPalette() {
     let savedName = null;
     try { savedName = localStorage.getItem(ACCENT_KEY); } catch (e) { savedName = null; }
@@ -97,18 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const found = palettes.find(p => p.name === savedName);
       if (found) { applyPalette(found); return; }
     }
-    // default (index 0 = vermelho)
     applyPalette(palettes[0]);
   })();
 
-  /* -----------------------
+  /* =========================
      PALETTE MODAL: render + behavior
-     ----------------------- */
-
+     ========================= */
   let selectedPaletteName = localStorage.getItem(ACCENT_KEY) || palettes[0].name;
   let lastFocusedBeforeModal = null;
 
   function buildPaletteList() {
+    if (!paletteListEl) return;
     paletteListEl.innerHTML = '';
     palettes.forEach((p, i) => {
       const card = document.createElement('button');
@@ -118,29 +127,22 @@ document.addEventListener('DOMContentLoaded', () => {
       card.setAttribute('data-palette', p.name);
       card.setAttribute('aria-pressed', String(p.name === selectedPaletteName));
       card.tabIndex = 0;
-
       if (p.name === selectedPaletteName) card.classList.add('selected');
 
-      // swatch
       const sw = document.createElement('span');
       sw.className = 'palette-swatch';
       const sw1 = document.createElement('span'); sw1.className = 'sw1'; sw1.style.background = p.accent;
       const sw2 = document.createElement('span'); sw2.className = 'sw2'; sw2.style.background = p.accentStrong;
       sw.appendChild(sw1); sw.appendChild(sw2);
 
-      // meta
-      const meta = document.createElement('div');
-      meta.className = 'palette-meta';
+      const meta = document.createElement('div'); meta.className = 'palette-meta';
       const nameEl = document.createElement('div'); nameEl.className = 'palette-name'; nameEl.textContent = p.label;
       const descEl = document.createElement('div'); descEl.className = 'palette-desc'; descEl.textContent = p.name;
       meta.appendChild(nameEl); meta.appendChild(descEl);
 
-      card.appendChild(sw);
-      card.appendChild(meta);
+      card.appendChild(sw); card.appendChild(meta);
 
-      // click handler: mark selected but don't close automatically (user presses Apply)
       card.addEventListener('click', () => {
-        // remove previous selected
         const prev = paletteListEl.querySelector('.palette-card.selected');
         if (prev) { prev.classList.remove('selected'); prev.setAttribute('aria-pressed', 'false'); }
         card.classList.add('selected');
@@ -148,18 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedPaletteName = p.name;
       });
 
-      // keyboard: Enter selects, Arrow keys navigate
       card.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Enter' || ev.key === ' ') {
-          ev.preventDefault();
-          card.click();
-        } else if (ev.key === 'ArrowRight' || ev.key === 'ArrowDown') {
-          ev.preventDefault();
-          focusNextCard(i);
-        } else if (ev.key === 'ArrowLeft' || ev.key === 'ArrowUp') {
-          ev.preventDefault();
-          focusPrevCard(i);
-        }
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); card.click(); }
+        else if (ev.key === 'ArrowRight' || ev.key === 'ArrowDown') { ev.preventDefault(); focusNextCard(i); }
+        else if (ev.key === 'ArrowLeft' || ev.key === 'ArrowUp') { ev.preventDefault(); focusPrevCard(i); }
       });
 
       paletteListEl.appendChild(card);
@@ -180,28 +174,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function openPaletteModal() {
     buildPaletteList();
     lastFocusedBeforeModal = document.activeElement;
+    if (!paletteModal) return;
     paletteModal.setAttribute('aria-hidden', 'false');
     paletteModal.style.display = 'flex';
-    // focus the selected card
     requestAnimationFrame(() => {
       const sel = paletteListEl.querySelector(`.palette-card[data-palette="${selectedPaletteName}"]`) || paletteListEl.querySelector('.palette-card');
       if (sel) sel.focus();
-      document.body.style.overflow = 'hidden'; // prevent background scroll
+      document.body.style.overflow = 'hidden';
     });
-    // trap focus minimally by listening for focus outside
     document.addEventListener('focus', enforceFocus, true);
   }
 
   function closePaletteModal() {
+    if (!paletteModal) return;
     paletteModal.setAttribute('aria-hidden', 'true');
     paletteModal.style.display = 'none';
     document.body.style.overflow = '';
     document.removeEventListener('focus', enforceFocus, true);
-    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
-      lastFocusedBeforeModal.focus();
-    } else {
-      openPaletteModalBtn.focus();
-    }
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') lastFocusedBeforeModal.focus();
+    else if (openPaletteModalBtn) openPaletteModalBtn.focus();
   }
 
   function enforceFocus(ev) {
@@ -212,154 +203,121 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // overlay and close button
-  paletteModal.addEventListener('click', (ev) => {
-    if (ev.target && ev.target.matches('[data-action="close"], .palette-overlay')) {
-      closePaletteModal();
-    }
-  });
-  closePaletteModalBtn.addEventListener('click', closePaletteModal);
+  if (paletteModal) {
+    paletteModal.addEventListener('click', (ev) => {
+      if (ev.target && ev.target.matches('[data-action="close"], .palette-overlay')) closePaletteModal();
+    });
+  }
+  if (closePaletteModalBtn) closePaletteModalBtn.addEventListener('click', closePaletteModal);
+  if (applyPaletteBtn) applyPaletteBtn.addEventListener('click', () => { const sel = palettes.find(p => p.name === selectedPaletteName) || palettes[0]; applyPalette(sel); closePaletteModal(); });
+  if (resetPaletteBtn) resetPaletteBtn.addEventListener('click', () => { selectedPaletteName = palettes[0].name; applyPalette(palettes[0]); buildPaletteList(); });
 
-  // Apply button: actually set the palette and close
-  applyPaletteBtn.addEventListener('click', () => {
-    const sel = palettes.find(p => p.name === selectedPaletteName) || palettes[0];
-    applyPalette(sel);
-    closePaletteModal();
-  });
-
-  // Reset to default
-  resetPaletteBtn.addEventListener('click', () => {
-    selectedPaletteName = palettes[0].name;
-    applyPalette(palettes[0]);
-    buildPaletteList(); // update visuals
-  });
-
-  // keyboard: Esc closes modal; Enter handled on cards
   document.addEventListener('keydown', (ev) => {
-    if (paletteModal.getAttribute('aria-hidden') === 'false' && ev.key === 'Escape') {
-      closePaletteModal();
-    }
+    if (paletteModal && paletteModal.getAttribute('aria-hidden') === 'false' && ev.key === 'Escape') closePaletteModal();
   });
 
-  openPaletteModalBtn.addEventListener('click', () => {
-    openPaletteModal();
-  });
-  openPaletteModalBtn.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Enter' || ev.key === ' ') {
-      ev.preventDefault();
-      openPaletteModal();
-    }
-  });
+  if (openPaletteModalBtn) {
+    openPaletteModalBtn.addEventListener('click', openPaletteModal);
+    openPaletteModalBtn.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); openPaletteModal(); }
+    });
+  }
 
-  /* -----------------------
+  /* =========================
      EXISTING FEATURES (thumb click, busca, toggle size, Esc)
-     ----------------------- */
+     ========================= */
 
-  // 1) Clicar numa thumb carrega no player (sem abrir nova aba)
+  // helper loadVideo (usado também para persist)
+  const LAST_VIDEO_KEY = 'nerdflix-last-video';
+  function loadVideo(src, thumbEl=null) {
+    if (!player) return;
+    player.src = src;
+    try { localStorage.setItem(LAST_VIDEO_KEY, src); } catch(e){}
+    if (thumbEl) {
+      const title = thumbEl.dataset.title || thumbEl.querySelector('img')?.alt || 'Vídeo';
+      mainTitle.textContent = title;
+      mainDesc.textContent = thumbEl.dataset.desc || '';
+      thumbs.forEach(x => x.classList.remove('active'));
+      thumbEl.classList.add('active');
+      player.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  // init last video
+  (function initLastVideo() {
+    try {
+      const last = localStorage.getItem(LAST_VIDEO_KEY);
+      if (last && player) {
+        player.src = last;
+        const found = thumbs.find(t => t.dataset.video === last);
+        if (found) {
+          mainTitle.textContent = found.dataset.title || found.querySelector('img')?.alt || 'Vídeo';
+        }
+      }
+    } catch(e) {}
+  })();
+
+  // thumbs click
   thumbs.forEach(t => {
     t.addEventListener('click', (ev) => {
       ev.preventDefault();
       const src = t.dataset.video;
-      // troca src do iframe (mantém autoplay desligado por padrão)
-      player.src = src;
-      // atualiza título/descrição se existir data-title
-      const title = t.dataset.title || t.querySelector('img')?.alt || 'Vídeo';
-      mainTitle.textContent = title;
-      mainDesc.textContent = ''; // se quiser, pode colocar descrição extra
-      // pequeno feedback visual: borda ativa
-      thumbs.forEach(x => x.classList.remove('active'));
-      t.classList.add('active');
-      // rolar pra topo do player (UX)
-      player.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      loadVideo(src, t);
     });
-    // também permitir keyboard (Enter)
     t.addEventListener('keydown', (ev) => {
-      if (ev.key === 'Enter' || ev.key === ' ') {
-        ev.preventDefault();
-        t.click();
-      }
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); t.click(); }
     });
   });
 
-  // 2) Busca: filtra thumbs pelos atributos href, alt, data-title
+  // filter thumbs
   function filterThumbs(q = '') {
     const ql = (q || '').trim().toLowerCase();
     thumbs.forEach(t => {
-      const txt = (t.href + ' ' + (t.dataset.title || '') + ' ' + (t.querySelector('img')?.alt || '')).toLowerCase();
+      const txt = ((t.dataset.video || '') + ' ' + (t.dataset.title || '') + ' ' + (t.querySelector('img')?.alt || '')).toLowerCase();
       t.style.display = txt.includes(ql) ? '' : 'none';
     });
   }
 
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-
-    // EASTER EGG trigger: se exatamente 'nerdflix' -> ativa o modo retrô
-    if (q === 'nerdflix') {
-      // limpa a busca (pra não filtrar thumbs) e ativa o easter egg
-      searchInput.value = '';
-      filterThumbs('');
-      activateRetroMode();
-      return;
-    }
-
-    // normal filter
-    filterThumbs(q);
-  });
-
-  // 3) Toggle de tamanho das thumbs
-  toggleSizeBtn.addEventListener('click', () => {
-    body.classList.toggle('large-thumbs');
-    toggleSizeBtn.textContent = body.classList.contains('large-thumbs') ? 'Thumbs menores' : 'Alternar tamanho das thumbs';
-  });
-
-  // Accessibility: allow Esc to stop video (remove src) or close modal / retro
-  document.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Escape') {
-      // if modal open, close modal
-      if (paletteModal.getAttribute('aria-hidden') === 'false') {
-        closePaletteModal();
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if (q === 'nerdflix') {
+        searchInput.value = '';
+        filterThumbs('');
+        activateRetroMode();
         return;
       }
-      // if retro mode active, close it first
-      if (body.classList.contains('retro-mode')) {
-        deactivateRetroMode();
-        return;
-      }
-      // else stop video
-      player.src = '';
-    }
-  });
+      filterThumbs(q);
+    });
+  }
+
+  if (toggleSizeBtn) {
+    toggleSizeBtn.addEventListener('click', () => {
+      body.classList.toggle('large-thumbs');
+      toggleSizeBtn.textContent = body.classList.contains('large-thumbs') ? 'Thumbs menores' : 'Alternar tamanho das thumbs';
+    });
+  }
+
+  // ESC behavior already implemented later via global keydown
 
   /* =========================
      EASTER EGG: RETRO MODE
      ========================= */
-
   let retroTimeout = null;
   function activateRetroMode() {
-    if (body.classList.contains('retro-mode')) {
-      // already active -> give a quick pulse and return
-      pulseRetroBanner('Já tá no modo retrô!');
-      return;
-    }
+    if (body.classList.contains('retro-mode')) { pulseRetroBanner('Já tá no modo retrô!'); return; }
     body.classList.add('retro-mode');
-    // show banner
     showRetroBanner();
-    // optional: auto-disable after X minutes (here 5 minutes)
     if (retroTimeout) clearTimeout(retroTimeout);
-    retroTimeout = setTimeout(() => {
-      deactivateRetroMode();
-    }, 1000 * 60 * 5);
+    retroTimeout = setTimeout(() => deactivateRetroMode(), 1000 * 60 * 5);
   }
-
   function deactivateRetroMode() {
     body.classList.remove('retro-mode');
     removeRetroBanner();
     if (retroTimeout) { clearTimeout(retroTimeout); retroTimeout = null; }
   }
 
-  // create and show banner
   function showRetroBanner() {
-    // avoid duplicates
     if (document.querySelector('.retro-banner')) return;
     const banner = document.createElement('div');
     banner.className = 'retro-banner';
@@ -374,33 +332,16 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.body.appendChild(banner);
 
-    // click on close button
-    banner.querySelector('.close-retro').addEventListener('click', () => {
-      deactivateRetroMode();
-    });
-
-    // clicking banner also toggles off
-    banner.addEventListener('click', (ev) => {
-      // ignore clicks on the close button (already handled)
-      if (ev.target.closest('.close-retro')) return;
-      // clicking the banner background toggles off
-      deactivateRetroMode();
-    });
-
-    // small pulse when user hovers
+    banner.querySelector('.close-retro').addEventListener('click', () => deactivateRetroMode());
+    banner.addEventListener('click', (ev) => { if (ev.target.closest('.close-retro')) return; deactivateRetroMode(); });
     banner.addEventListener('mouseenter', () => {
       banner.animate([{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-4px) scale(1.02)' }], { duration: 220, easing: 'ease-out' });
     });
   }
 
-  function removeRetroBanner() {
-    const b = document.querySelector('.retro-banner');
-    if (!b) return;
-    b.remove();
-  }
+  function removeRetroBanner() { const b = document.querySelector('.retro-banner'); if (b) b.remove(); }
 
   function pulseRetroBanner(msg) {
-    // show tiny temporary banner message
     const tmp = document.createElement('div');
     tmp.className = 'retro-banner';
     tmp.style.top = '8%';
@@ -410,56 +351,39 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => tmp.remove(), 1300);
   }
 
-  // Also expose a small quick toggle via console (handy while dev/testing)
-  window.__toggleRetro = () => {
-    if (body.classList.contains('retro-mode')) deactivateRetroMode();
-    else activateRetroMode();
-  };
+  window.__toggleRetro = () => { if (body.classList.contains('retro-mode')) deactivateRetroMode(); else activateRetroMode(); };
 
-  /* =========================
-     END EASTER EGG
-     ========================= */
+  // ESC global handler (closes modals, retro, or stops video)
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') {
+      if (paletteModal && paletteModal.getAttribute('aria-hidden') === 'false') { closePaletteModal(); return; }
+      if (body.classList.contains('retro-mode')) { deactivateRetroMode(); return; }
+      if (player) player.src = '';
+    }
+  });
 
-});
+  // ---------- end of DOMContentLoaded block ----------
+}); // end DOMContentLoaded
 
 /* ======================
-   SUPABASE AUTH INTEGRATION
+   SUPABASE AUTH INTEGRATION (fora do DOMContentLoaded para garantir client ok)
    ====================== */
 
-// --- CONFIGURE AQUI (COLE SUAS CHAVES) ---
-const SUPABASE_URL = 'https://iqootgumqxwscsrwagpc.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb290Z3VtcXh3c2NzcndhZ3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzODg4MDQsImV4cCI6MjA3Mzk2NDgwNH0.8GC166Vrjmt4dphVoma49aJ7asmYGhBwXIw0k14BAGM';
-// -----------------------------------------
+// Observação: os elementos do DOM são acessados após DOMContentLoaded,
+// então dentro de listeners fazemos guard checks (?.) pra evitar erros.
 
-// cria cliente Supabase (usa a lib do CDN)
-const supabaseClient = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// elementos do modal
 const authModal = document.getElementById('authModal');
-const openAuthModalBtn = document.getElementById('openAuthModal'); // opcional, usaremos trigger manual
 const closeAuthModalBtn = document.getElementById('closeAuthModal');
 const signupFormEl = document.getElementById('signupForm');
 const loginFormEl = document.getElementById('loginForm');
 const logoutBtnEl = document.getElementById('logoutBtn');
 const authMsgEl = document.getElementById('authMsg');
 
-// small helper
-function showAuthModal() {
-  authModal.style.display = 'block';
-  authModal.setAttribute('aria-hidden', 'false');
-  // focus no primeiro input
-  setTimeout(() => document.getElementById('signupEmail')?.focus(), 100);
-}
-function closeAuthModal() {
-  authModal.style.display = 'none';
-  authModal.setAttribute('aria-hidden', 'true');
-}
-
-// delegate open modal: cria um botão flutuante no header (ou usa um seletor já existente)
-// se quiser usar um botão no header: cria um novo botão dinamicamente
+// criar botão no header para abrir modal (se header-actions existir)
 (function createAuthHeaderButton() {
   const headerActions = document.querySelector('.header-actions');
   if (!headerActions) return;
+  if (document.getElementById('btnAuthOpen')) return; // já criado
   const btn = document.createElement('button');
   btn.id = 'btnAuthOpen';
   btn.className = 'btn small';
@@ -469,10 +393,21 @@ function closeAuthModal() {
   btn.addEventListener('click', showAuthModal);
 })();
 
-// modal close handlers
+function showAuthModal() {
+  if (!authModal) return;
+  authModal.style.display = 'flex';
+  authModal.setAttribute('aria-hidden', 'false');
+  setTimeout(() => document.getElementById('signupEmail')?.focus(), 120);
+}
+function closeAuthModal() {
+  if (!authModal) return;
+  authModal.style.display = 'none';
+  authModal.setAttribute('aria-hidden', 'true');
+}
+
 closeAuthModalBtn?.addEventListener('click', closeAuthModal);
-authModal?.addEventListener('click', (ev) => {
-  if (ev.target.matches('[data-action="close"], .auth-overlay')) closeAuthModal();
+document.addEventListener('click', (ev) => {
+  if (ev.target && ev.target.matches('[data-action="close"], .auth-overlay')) closeAuthModal();
 });
 
 // SIGNUP
@@ -480,6 +415,7 @@ signupFormEl?.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
+  if (!authMsgEl) return;
   authMsgEl.textContent = 'Criando conta...';
   try {
     const { data, error } = await supabaseClient.auth.signUp({ email, password }, { redirectTo: window.location.href });
@@ -487,10 +423,9 @@ signupFormEl?.addEventListener('submit', async (ev) => {
       authMsgEl.textContent = 'Erro: ' + error.message;
       return;
     }
-    authMsgEl.textContent = 'Conta criada — verifique o e-mail para confirmar (se habilitado).';
-    // opcional: fechar modal automaticamente
-    // closeAuthModal();
+    authMsgEl.textContent = 'Conta criada — verifique seu e-mail para confirmar (se habilitado).';
   } catch (e) {
+    console.error('signup error', e);
     authMsgEl.textContent = 'Erro no signup.';
   }
 });
@@ -500,6 +435,7 @@ loginFormEl?.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
+  if (!authMsgEl) return;
   authMsgEl.textContent = 'Entrando...';
   try {
     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
@@ -511,14 +447,17 @@ loginFormEl?.addEventListener('submit', async (ev) => {
     closeAuthModal();
     updateAuthUI();
   } catch (e) {
+    console.error('login error', e);
     authMsgEl.textContent = 'Erro no login.';
   }
 });
 
 // LOGOUT
 logoutBtnEl?.addEventListener('click', async () => {
-  await supabaseClient.auth.signOut();
-  updateAuthUI();
+  try {
+    await supabaseClient.auth.signOut();
+    updateAuthUI();
+  } catch (e) { console.error('logout error', e); }
 });
 
 // Atualiza UI conforme sessão atual
@@ -526,34 +465,28 @@ async function updateAuthUI() {
   try {
     const { data } = await supabaseClient.auth.getUser();
     const user = data?.user || null;
-    // ex: mostrar email no header e botão logout
     const btnHeader = document.getElementById('btnAuthOpen');
     if (user) {
-      logoutBtnEl.style.display = 'inline-block';
-      if (btnHeader) {
-        btnHeader.textContent = user.email.split('@')[0]; // mostra prefixo do email
-        btnHeader.classList.add('disabled');
-        btnHeader.disabled = true;
-      }
-      authMsgEl.textContent = 'Logado como ' + (user.email || '');
+      if (logoutBtnEl) logoutBtnEl.style.display = 'inline-block';
+      if (btnHeader) { btnHeader.textContent = user.email.split('@')[0]; btnHeader.classList.add('disabled'); btnHeader.disabled = true; }
+      if (authMsgEl) authMsgEl.textContent = 'Logado como ' + (user.email || '');
     } else {
-      logoutBtnEl.style.display = 'none';
-      if (btnHeader) {
-        btnHeader.textContent = 'Entrar';
-        btnHeader.classList.remove('disabled');
-        btnHeader.disabled = false;
-      }
-      authMsgEl.textContent = '';
+      if (logoutBtnEl) logoutBtnEl.style.display = 'none';
+      if (btnHeader) { btnHeader.textContent = 'Entrar'; btnHeader.classList.remove('disabled'); btnHeader.disabled = false; }
+      if (authMsgEl) authMsgEl.textContent = '';
     }
   } catch (e) {
-    console.error(e);
+    console.error('updateAuthUI error', e);
   }
 }
 
-// reage a mudanças de auth (ex.: login de outra aba)
+// reage a mudanças de auth (ex.: login em outra aba)
 supabaseClient.auth.onAuthStateChange((_event, _session) => {
   updateAuthUI();
 });
 
-// inicializa UI auth
+// inicializa UI auth (tenta executar, se DOM ainda não pronto, tolerância com nulls)
 updateAuthUI();
+
+// DEBUG helper
+console.log('Script carregado — recursos: thumbs', thumbs?.length || 0);

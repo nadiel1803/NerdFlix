@@ -9,9 +9,8 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Supabase (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
-
+  <!-- Supabase UMD (CDN) - IMPORTANTE: deve vir antes do script principal -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 
   <!-- JS -->
   <script src="script.js" defer></script>
@@ -45,6 +44,8 @@
             <circle cx="12" cy="12" r="3"></circle>
           </svg>
         </button>
+
+        <!-- Auth button injected by JS -->
       </div>
     </div>
   </header>
@@ -79,11 +80,11 @@
       <h3>PRINCIPAL</h3>
       <div class="categoria-videos" data-category="PRINCIPAL">
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/pf1IhjYktfs?rel=0" data-title="pf1IhjYktfs - Nerdice 1" tabindex="0">
-          <img src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs - Nerdice 1">
+          <img loading="lazy" src="https://i.ytimg.com/vi/pf1IhjYktfs/hqdefault.jpg" alt="pf1IhjYktfs - Nerdice 1">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/0xxSoV9O_ig?rel=0" data-title="0xxSoV9O_ig - Novo Vídeo" tabindex="0">
-          <img src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig - Novo Vídeo">
+          <img loading="lazy" src="https://i.ytimg.com/vi/0xxSoV9O_ig/hqdefault.jpg" alt="0xxSoV9O_ig - Novo Vídeo">
         </a>
       </div>
     </section>
@@ -93,35 +94,35 @@
       <h3>LEON &amp; NILCE: FILMES</h3>
       <div class="categoria-videos" data-category="LEON & NILCE: FILMES">
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/wlpr0jpGGGI?rel=0" data-title="wlpr0jpGGGI" tabindex="0">
-          <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
+          <img loading="lazy" src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="wlpr0jpGGGI">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/esjS0A8hwfs?rel=0" data-title="esjS0A8hwfs" tabindex="0">
-          <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
+          <img loading="lazy" src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="esjS0A8hwfs">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/n-sYjHOkwIk?rel=0" data-title="n-sYjHOkwIk" tabindex="0">
-          <img src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
+          <img loading="lazy" src="https://i.ytimg.com/vi/n-sYjHOkwIk/hqdefault.jpg" alt="n-sYjHOkwIk">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/818TmDjc_ak?rel=0" data-title="818TmDjc_ak" tabindex="0">
-          <img src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
+          <img loading="lazy" src="https://i.ytimg.com/vi/818TmDjc_ak/hqdefault.jpg" alt="818TmDjc_ak">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/GaGwd-NXyGM?rel=0" data-title="GaGwd-NXyGM" tabindex="0">
-          <img src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
+          <img loading="lazy" src="https://i.ytimg.com/vi/GaGwd-NXyGM/hqdefault.jpg" alt="GaGwd-NXyGM">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/VRSyYcPRws0?rel=0" data-title="VRSyYcPRws0" tabindex="0">
-          <img src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
+          <img loading="lazy" src="https://i.ytimg.com/vi/VRSyYcPRws0/hqdefault.jpg" alt="VRSyYcPRws0">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/FedBr0CyAlE?rel=0" data-title="FedBr0CyAlE" tabindex="0">
-          <img src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
+          <img loading="lazy" src="https://i.ytimg.com/vi/FedBr0CyAlE/hqdefault.jpg" alt="FedBr0CyAlE">
         </a>
 
         <a class="thumb" href="#" data-video="https://www.youtube.com/embed/fJYkXmAdkrQ?rel=0" data-title="fJYkXmAdkrQ" tabindex="0">
-          <img src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
+          <img loading="lazy" src="https://i.ytimg.com/vi/fJYkXmAdkrQ/hqdefault.jpg" alt="fJYkXmAdkrQ">
         </a>
 
         <div class="playlist-button-wrap" aria-hidden="false">
@@ -160,40 +161,40 @@
     </div>
   </div>
 
-  <!-- AUTH MODAL (INSERIR ANTES DO RODAPÉ) -->
-<div id="authModal" class="auth-modal" aria-hidden="true" role="dialog" aria-labelledby="authTitle" style="display:none;">
-  <div class="auth-overlay" data-action="close" style="position:fixed;inset:0;background:rgba(0,0,0,0.6)"></div>
-  <div class="auth-panel" role="document" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,96%);background:var(--card);padding:18px;border-radius:10px;z-index:120;">
-    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <h3 id="authTitle" style="margin:0;">Entrar / Criar conta</h3>
-      <button id="closeAuthModal" aria-label="Fechar" class="modal-close">✕</button>
-    </header>
+  <!-- AUTH MODAL (inserido no final do body) -->
+  <div id="authModal" class="palette-modal auth-modal" role="dialog" aria-hidden="true" tabindex="-1" style="display:none;">
+    <div class="palette-overlay auth-overlay" data-action="close"></div>
 
-    <div id="authForms">
-      <form id="signupForm" style="display:block;margin-bottom:12px;">
-        <label style="font-weight:700">Criar conta (email)</label>
-        <input id="signupEmail" type="email" placeholder="seu@email.com" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
-        <input id="signupPassword" type="password" placeholder="Senha (mín 6)" minlength="6" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
-        <button type="submit" class="btn" style="width:100%;">Criar conta</button>
-      </form>
+    <div class="palette-panel auth-panel" role="document" style="width: min(420px, calc(100% - 36px));">
+      <header class="palette-header">
+        <h2 id="authModalTitle">Entrar / Criar conta</h2>
+        <button id="closeAuthModal" class="modal-close" aria-label="Fechar autenticação">✕</button>
+      </header>
 
-      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+      <div class="palette-body">
+        <form id="signupForm" style="margin-bottom:12px;">
+          <label class="palette-desc">Criar conta (email)</label>
+          <input id="signupEmail" type="email" placeholder="seu@email.com" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:var(--input-bg);color:var(--text)"/>
+          <input id="signupPassword" type="password" placeholder="Senha (mín 6)" minlength="6" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:var(--input-bg);color:var(--text)"/>
+          <button type="submit" class="btn" style="width:100%;">Criar conta</button>
+        </form>
 
-      <form id="loginForm" style="display:block;">
-        <label style="font-weight:700">Entrar</label>
-        <input id="loginEmail" type="email" placeholder="email" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
-        <input id="loginPassword" type="password" placeholder="senha" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
-        <button type="submit" class="btn" style="width:100%;">Entrar</button>
-      </form>
-    </div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
 
-    <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;">
-      <button id="openAuthBtn" style="display:none">Aberto</button>
-      <button id="logoutBtn" class="btn small" style="display:none;">Sair</button>
-      <div id="authMsg" aria-live="polite" style="flex:1;text-align:right;color:var(--muted-text);font-size:13px;"></div>
+        <form id="loginForm">
+          <label class="palette-desc">Entrar</label>
+          <input id="loginEmail" type="email" placeholder="email" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:var(--input-bg);color:var(--text)"/>
+          <input id="loginPassword" type="password" placeholder="senha" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:var(--input-bg);color:var(--text)"/>
+          <button type="submit" class="btn" style="width:100%;">Entrar</button>
+        </form>
+      </div>
+
+      <footer class="palette-footer" style="justify-content:space-between;">
+        <button id="logoutBtn" class="btn small" style="display:none;">Sair</button>
+        <div id="authMsg" aria-live="polite" style="color:var(--muted-text);font-size:13px;"></div>
+      </footer>
     </div>
   </div>
-</div>
 
   <!-- RODAPÉ -->
   <footer class="site-footer">

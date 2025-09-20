@@ -337,3 +337,10 @@ body.retro-mode .btn, body.retro-mode .theme-toggle, body.retro-mode .color-cycl
 
 /* ensure modal still sits above scanlines but below banner */
 .palette-modal { z-index: 80; }
+
+/* ========== AUTH modal specifics ========== */
+.auth-modal .auth-panel { max-width:420px; }
+.auth-overlay { background: rgba(0,0,0,0.65); }
+.auth-panel input { background: var(--input-bg); color: var(--text); border-radius:6px; padding:8px; border:1px solid rgba(255,255,255,0.04); width:100%; margin:6px 0; }
+.auth-panel .btn { width:100%; }
+.auth-panel .palette-desc { margin-bottom:6px; display:block; color:var(--muted-text); }
