@@ -421,3 +421,139 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================= */
 
 });
+
+/* ======================
+   SUPABASE AUTH INTEGRATION
+   ====================== */
+
+// --- CONFIGURE AQUI (COLE SUAS CHAVES) ---
+const SUPABASE_URL = 'https://iqootgumqxwscsrwagpc.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb290Z3VtcXh3c2NzcndhZ3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgzODg4MDQsImV4cCI6MjA3Mzk2NDgwNH0.8GC166Vrjmt4dphVoma49aJ7asmYGhBwXIw0k14BAGM';
+// -----------------------------------------
+
+// cria cliente Supabase (usa a lib do CDN)
+const supabaseClient = supabaseJs.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// elementos do modal
+const authModal = document.getElementById('authModal');
+const openAuthModalBtn = document.getElementById('openAuthModal'); // opcional, usaremos trigger manual
+const closeAuthModalBtn = document.getElementById('closeAuthModal');
+const signupFormEl = document.getElementById('signupForm');
+const loginFormEl = document.getElementById('loginForm');
+const logoutBtnEl = document.getElementById('logoutBtn');
+const authMsgEl = document.getElementById('authMsg');
+
+// small helper
+function showAuthModal() {
+  authModal.style.display = 'block';
+  authModal.setAttribute('aria-hidden', 'false');
+  // focus no primeiro input
+  setTimeout(() => document.getElementById('signupEmail')?.focus(), 100);
+}
+function closeAuthModal() {
+  authModal.style.display = 'none';
+  authModal.setAttribute('aria-hidden', 'true');
+}
+
+// delegate open modal: cria um botão flutuante no header (ou usa um seletor já existente)
+// se quiser usar um botão no header: cria um novo botão dinamicamente
+(function createAuthHeaderButton() {
+  const headerActions = document.querySelector('.header-actions');
+  if (!headerActions) return;
+  const btn = document.createElement('button');
+  btn.id = 'btnAuthOpen';
+  btn.className = 'btn small';
+  btn.textContent = 'Entrar';
+  btn.style.cursor = 'pointer';
+  headerActions.appendChild(btn);
+  btn.addEventListener('click', showAuthModal);
+})();
+
+// modal close handlers
+closeAuthModalBtn?.addEventListener('click', closeAuthModal);
+authModal?.addEventListener('click', (ev) => {
+  if (ev.target.matches('[data-action="close"], .auth-overlay')) closeAuthModal();
+});
+
+// SIGNUP
+signupFormEl?.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  authMsgEl.textContent = 'Criando conta...';
+  try {
+    const { data, error } = await supabaseClient.auth.signUp({ email, password }, { redirectTo: window.location.href });
+    if (error) {
+      authMsgEl.textContent = 'Erro: ' + error.message;
+      return;
+    }
+    authMsgEl.textContent = 'Conta criada — verifique o e-mail para confirmar (se habilitado).';
+    // opcional: fechar modal automaticamente
+    // closeAuthModal();
+  } catch (e) {
+    authMsgEl.textContent = 'Erro no signup.';
+  }
+});
+
+// LOGIN
+loginFormEl?.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  authMsgEl.textContent = 'Entrando...';
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      authMsgEl.textContent = 'Erro: ' + error.message;
+      return;
+    }
+    authMsgEl.textContent = 'Logado com sucesso!';
+    closeAuthModal();
+    updateAuthUI();
+  } catch (e) {
+    authMsgEl.textContent = 'Erro no login.';
+  }
+});
+
+// LOGOUT
+logoutBtnEl?.addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  updateAuthUI();
+});
+
+// Atualiza UI conforme sessão atual
+async function updateAuthUI() {
+  try {
+    const { data } = await supabaseClient.auth.getUser();
+    const user = data?.user || null;
+    // ex: mostrar email no header e botão logout
+    const btnHeader = document.getElementById('btnAuthOpen');
+    if (user) {
+      logoutBtnEl.style.display = 'inline-block';
+      if (btnHeader) {
+        btnHeader.textContent = user.email.split('@')[0]; // mostra prefixo do email
+        btnHeader.classList.add('disabled');
+        btnHeader.disabled = true;
+      }
+      authMsgEl.textContent = 'Logado como ' + (user.email || '');
+    } else {
+      logoutBtnEl.style.display = 'none';
+      if (btnHeader) {
+        btnHeader.textContent = 'Entrar';
+        btnHeader.classList.remove('disabled');
+        btnHeader.disabled = false;
+      }
+      authMsgEl.textContent = '';
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// reage a mudanças de auth (ex.: login de outra aba)
+supabaseClient.auth.onAuthStateChange((_event, _session) => {
+  updateAuthUI();
+});
+
+// inicializa UI auth
+updateAuthUI();

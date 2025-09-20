@@ -9,6 +9,10 @@
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Supabase (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+
+
   <!-- JS -->
   <script src="script.js" defer></script>
 </head>
@@ -155,6 +159,41 @@
       </footer>
     </div>
   </div>
+
+  <!-- AUTH MODAL (INSERIR ANTES DO RODAPÉ) -->
+<div id="authModal" class="auth-modal" aria-hidden="true" role="dialog" aria-labelledby="authTitle" style="display:none;">
+  <div class="auth-overlay" data-action="close" style="position:fixed;inset:0;background:rgba(0,0,0,0.6)"></div>
+  <div class="auth-panel" role="document" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,96%);background:var(--card);padding:18px;border-radius:10px;z-index:120;">
+    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <h3 id="authTitle" style="margin:0;">Entrar / Criar conta</h3>
+      <button id="closeAuthModal" aria-label="Fechar" class="modal-close">✕</button>
+    </header>
+
+    <div id="authForms">
+      <form id="signupForm" style="display:block;margin-bottom:12px;">
+        <label style="font-weight:700">Criar conta (email)</label>
+        <input id="signupEmail" type="email" placeholder="seu@email.com" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
+        <input id="signupPassword" type="password" placeholder="Senha (mín 6)" minlength="6" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
+        <button type="submit" class="btn" style="width:100%;">Criar conta</button>
+      </form>
+
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0">
+
+      <form id="loginForm" style="display:block;">
+        <label style="font-weight:700">Entrar</label>
+        <input id="loginEmail" type="email" placeholder="email" required style="width:100%;padding:8px;margin:8px 0;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
+        <input id="loginPassword" type="password" placeholder="senha" required style="width:100%;padding:8px;margin-bottom:8px;border-radius:6px;background:var(--input-bg);border:1px solid rgba(255,255,255,0.04)"/>
+        <button type="submit" class="btn" style="width:100%;">Entrar</button>
+      </form>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:12px;">
+      <button id="openAuthBtn" style="display:none">Aberto</button>
+      <button id="logoutBtn" class="btn small" style="display:none;">Sair</button>
+      <div id="authMsg" aria-live="polite" style="flex:1;text-align:right;color:var(--muted-text);font-size:13px;"></div>
+    </div>
+  </div>
+</div>
 
   <!-- RODAPÉ -->
   <footer class="site-footer">
