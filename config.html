@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Configurações da Conta — NetflixClone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}</style>
+</head>
+<body class="bg-background-light dark:bg-[#0f0f0f] text-white">
+  <header class="p-4 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent">
+    <a href="index.html" class="text-white">◀ Voltar</a>
+    <div>Configurações</div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Configurações da Conta</h1>
+
+    <section class="bg-[#111] p-4 rounded mb-4">
+      <h2 class="text-sm text-gray-300 uppercase mb-2">Assinatura e Cobrança</h2>
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-gray-200">Premium Ultra HD</p>
+          <p class="text-sm text-gray-400">E-mail: usuario@email.com</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="px-3 py-2 bg-white text-black rounded">Cancelar assinatura</button>
+          <button class="px-3 py-2 bg-white/10 rounded">Alterar plano</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-[#111] p-4 rounded mb-4">
+      <h2 class="text-sm text-gray-300 uppercase mb-2">Detalhes do Perfil</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="text-sm text-gray-300">Nome</label>
+          <input class="mt-1 w-full bg-[#0b0b0b] p-2 rounded" value="Usuário" />
+        </div>
+        <div>
+          <label class="text-sm text-gray-300">Idioma</label>
+          <select class="mt-1 w-full bg-[#0b0b0b] p-2 rounded">
+            <option>Português (Brasil)</option>
+            <option>English</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4 flex gap-2">
+        <button class="px-4 py-2 bg-white text-black rounded">Salvar</button>
+        <button class="px-4 py-2 bg-white/10 rounded">Cancelar</button>
+      </div>
+    </section>
+
+    <section class="bg-[#111] p-4 rounded">
+      <h2 class="text-sm text-gray-300 uppercase mb-2">Preferências de Visualização</h2>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-semibold">Reprodução automática</p>
+          <p class="text-gray-400 text-sm">Reproduzir o próximo episódio automaticamente.</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" class="sr-only peer" checked />
+          <div class="w-11 h-6 bg-gray-600 rounded-full peer-checked:bg-primary relative after:absolute after:top-0.5 after:left-[2px] after:bg-white after:h-5 after:w-5 after:rounded-full peer-checked:after:translate-x-full transition-all"></div>
+        </label>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
