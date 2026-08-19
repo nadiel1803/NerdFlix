@@ -1,70 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Configurações da Conta — NetflixClone</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="Preferências do NERDFLIX.">
+  <title>Configurações — NERDFLIX</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-<body class="bg-background-light dark:bg-[#0f0f0f] text-white">
-  <header class="p-4 flex items-center justify-between bg-gradient-to-b from-black/60 to-transparent">
-    <a href="index.html" class="text-white">◀ Voltar</a>
-    <div>Configurações</div>
-  </header>
+<body data-page="config">
+  <header class="site-header"><div class="header-inner"><a class="brand" href="index.html" aria-label="NERDFLIX — página inicial"><span class="brand-mark" aria-hidden="true">N</span><span class="brand-name">NERD<em>FLIX</em></span></a><nav class="main-nav" aria-label="Navegação principal"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html">Player</a><a href="config.html" aria-current="page">Configurações</a></nav><div class="header-actions"><button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button><button class="icon-button" type="button" data-theme-toggle aria-label="Alternar tema" aria-pressed="false"><span data-theme-icon aria-hidden="true">☼</span></button><a class="ghost-button" href="index.html">Início</a></div></div><nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html">Player</a><a href="config.html" aria-current="page">Configurações</a></nav></header>
 
-  <main class="max-w-4xl mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Configurações da Conta</h1>
+  <main class="page-shell"><div class="page-intro"><div><span class="eyebrow">Experiência pessoal</span><h1>Configurações</h1><p>Personalize o NERDFLIX. As opções abaixo são salvas somente neste navegador, sem conta ou servidor.</p></div></div>
+    <div class="settings-grid">
+      <section class="settings-card" aria-labelledby="profile-title"><div class="settings-card-header"><div><h2 id="profile-title">Perfil local</h2><p>Esse nome aparece no cabeçalho da aplicação.</p></div><span class="profile-dot" aria-hidden="true">D</span></div><form id="profileForm"><div class="form-grid"><div class="field"><label for="profileName">Nome de exibição</label><input id="profileName" name="profileName" type="text" maxlength="32" autocomplete="name" placeholder="Como quer ser chamado?"></div><div class="field"><label for="profileLanguage">Idioma</label><select id="profileLanguage" name="profileLanguage"><option value="pt-BR">Português (Brasil)</option><option value="en">English</option></select></div></div><div class="form-actions"><button class="button button-primary" type="submit">Salvar perfil</button><button class="button button-ghost" id="resetProfile" type="button">Restaurar campos</button></div></form></section>
 
-    <section class="bg-[#111] p-4 rounded mb-4">
-      <h2 class="text-sm text-gray-300 uppercase mb-2">Assinatura e Cobrança</h2>
-      <div class="flex justify-between items-center">
-        <div>
-          <p class="text-gray-200">Premium Ultra HD</p>
-          <p class="text-sm text-gray-400">E-mail: usuario@email.com</p>
-        </div>
-        <div class="flex gap-2">
-          <button class="px-3 py-2 bg-white text-black rounded">Cancelar assinatura</button>
-          <button class="px-3 py-2 bg-white/10 rounded">Alterar plano</button>
-        </div>
-      </div>
-    </section>
+      <section class="settings-card" aria-labelledby="appearance-title"><div class="settings-card-header"><div><h2 id="appearance-title">Aparência</h2><p>Escolha o clima visual que prefere usar.</p></div><span class="eyebrow" data-current-palette>Vermelho</span></div><div class="field"><label for="themeSelect">Tema</label><select id="themeSelect"><option value="dark">Escuro</option><option value="light">Claro</option></select></div><div class="form-actions"><button class="button button-secondary" id="resetPreferences" type="button">Restaurar preferências</button></div></section>
 
-    <section class="bg-[#111] p-4 rounded mb-4">
-      <h2 class="text-sm text-gray-300 uppercase mb-2">Detalhes do Perfil</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="text-sm text-gray-300">Nome</label>
-          <input class="mt-1 w-full bg-[#0b0b0b] p-2 rounded" value="Usuário" />
-        </div>
-        <div>
-          <label class="text-sm text-gray-300">Idioma</label>
-          <select class="mt-1 w-full bg-[#0b0b0b] p-2 rounded">
-            <option>Português (Brasil)</option>
-            <option>English</option>
-          </select>
-        </div>
-      </div>
-      <div class="mt-4 flex gap-2">
-        <button class="px-4 py-2 bg-white text-black rounded">Salvar</button>
-        <button class="px-4 py-2 bg-white/10 rounded">Cancelar</button>
-      </div>
-    </section>
+      <section class="settings-card full-width" aria-labelledby="palette-title"><div class="settings-card-header"><div><h2 id="palette-title">Paleta de destaque</h2><p>O destaque escolhido é aplicado aos botões, bordas e estados ativos.</p></div></div><div class="palette-list" id="configPaletteList"></div></section>
 
-    <section class="bg-[#111] p-4 rounded">
-      <h2 class="text-sm text-gray-300 uppercase mb-2">Preferências de Visualização</h2>
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="font-semibold">Reprodução automática</p>
-          <p class="text-gray-400 text-sm">Reproduzir o próximo episódio automaticamente.</p>
-        </div>
-        <label class="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" class="sr-only peer" checked />
-          <div class="w-11 h-6 bg-gray-600 rounded-full peer-checked:bg-primary relative after:absolute after:top-0.5 after:left-[2px] after:bg-white after:h-5 after:w-5 after:rounded-full peer-checked:after:translate-x-full transition-all"></div>
-        </label>
-      </div>
-    </section>
+      <section class="settings-card full-width" aria-labelledby="playback-title"><div class="settings-card-header"><div><h2 id="playback-title">Reprodução e catálogo</h2><p>Defina como o conteúdo deve se comportar quando você abrir o player.</p></div></div><div class="preference-row"><div><strong>Reprodução automática</strong><p>Solicitar autoplay ao carregar um vídeo no player.</p></div><label class="switch" for="autoplayToggle"><input id="autoplayToggle" type="checkbox"><span aria-hidden="true"></span></label></div><div class="preference-row"><div><strong>Densidade dos cards</strong><p>Escolha entre uma visualização mais compacta ou ampliada.</p></div><div class="field"><label class="sr-only" for="thumbSizeSelect">Densidade dos cards</label><select id="thumbSizeSelect" data-thumb-size><option value="normal">Cards compactos</option><option value="large">Cards grandes</option></select></div></div></section>
+
+      <section class="settings-card full-width"><p class="danger-note">O NERDFLIX é uma interface local. Nenhuma dessas preferências é enviada para um servidor, e limpar os dados do navegador também apagará o perfil e os favoritos.</p></section>
+    </div>
   </main>
+
+  <footer class="site-footer"><div class="footer-inner"><p>NERDFLIX · preferências locais · <span data-year>2026</span></p><div class="footer-links"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a></div></div></footer>
 </body>
 </html>

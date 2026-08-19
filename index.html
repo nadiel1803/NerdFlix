@@ -1,123 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NetflixClone — Início</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="NERDFLIX — uma central pessoal para descobrir e assistir vídeos do YouTube.">
+  <title>NERDFLIX — Início</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-<body class="bg-background-light dark:bg-[#0f0f0f] text-white font-sans">
-  <!-- Top nav -->
-  <header class="flex items-center justify-between p-4 bg-gradient-to-b from-black/60 to-transparent">
-    <div class="flex items-center gap-4">
-      <div class="text-primary text-2xl font-bold">NetflixClone</div>
-      <nav class="hidden md:flex gap-4">
-        <a href="index.html" class="text-sm">Início</a>
-        <a href="detalhes.html" class="text-sm">Trailers &amp; Mais</a>
-        <a href="config.html" class="text-sm">Configurações</a>
-      </nav>
+<body data-page="home">
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="NERDFLIX — página inicial"><span class="brand-mark" aria-hidden="true">N</span><span class="brand-name">NERD<em>FLIX</em></span></a>
+      <nav class="main-nav" aria-label="Navegação principal"><a href="index.html" aria-current="page">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html">Player</a><a href="config.html">Configurações</a></nav>
+      <div class="header-actions"><button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button><button class="icon-button" type="button" data-theme-toggle aria-label="Alternar tema" aria-pressed="false"><span data-theme-icon aria-hidden="true">☼</span></button><button class="ghost-button" id="openPalette" type="button">Paleta</button><a class="ghost-button" href="config.html">Preferências</a><div class="header-profile" aria-label="Perfil atual"><span class="profile-dot" aria-hidden="true">D</span><span data-profile-name>Usuário</span></div></div>
     </div>
-    <div class="flex items-center gap-3">
-      <a href="config.html" class="text-sm opacity-80 hover:opacity-100">Conta</a>
-    </div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel"><a href="index.html" aria-current="page">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html">Player</a><a href="config.html">Configurações</a></nav>
   </header>
 
-  <main class="max-w-6xl mx-auto p-4">
-    <!-- Hero -->
-    <section class="relative pb-8">
-      <div class="rounded-xl overflow-hidden bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?q=80&w=1920&auto=format&fit=crop'); min-height: 44vh;">
-        <div class="bg-gradient-to-t from-black/80 to-transparent p-8 h-full flex flex-col justify-end">
-          <h1 class="text-4xl font-extrabold">Bem-vindo ao seu clone</h1>
-          <p class="text-gray-300 max-w-2xl mt-2">Navegue pelos títulos, abra a página de detalhes ou reproduza direto no player.</p>
-          <div class="mt-4 flex gap-3">
-            <a href="detalhes.html" class="bg-white text-black px-4 py-2 rounded font-semibold">Trailers &amp; Mais</a>
-            <a href="#leon-nilce-filmes" class="bg-white/20 px-4 py-2 rounded hover:bg-white/30">Ir para LEON &amp; NILCE</a>
-          </div>
-        </div>
-      </div>
-    </section>
+  <main class="page-shell">
+    <div class="page-intro"><div><span class="eyebrow">Sua biblioteca</span><h1>O que você quer assistir?</h1><p>Pesquise por título, coleção ou palavra-chave e encontre seu próximo vídeo.</p></div><label class="search-bar" for="homeSearch"><span aria-hidden="true">⌕</span><input id="homeSearch" type="search" placeholder="Buscar no catálogo" autocomplete="off"></label></div>
+    <section class="hero" aria-labelledby="hero-title"><div class="hero-content"><span class="eyebrow">Sua central de vídeos</span><h1 id="hero-title">Assista. Descubra. <span>Recomece.</span></h1><p>Uma experiência simples para organizar seus vídeos favoritos e encontrar rapidamente o próximo conteúdo para assistir.</p><div class="hero-actions"><a class="button button-primary" href="detalhes.html">Explorar catálogo →</a><a class="button button-secondary" href="#colecao">Ver coleção</a></div><div class="stats-strip" aria-label="Resumo do catálogo"><div class="stat"><strong>08</strong><span>vídeos disponíveis</span></div><div class="stat"><strong data-favorites-count>00</strong><span>favoritos salvos</span></div><div class="stat"><strong>01</strong><span>coleção em destaque</span></div></div></div></section>
 
-    <!-- Outras seções (exemplos curtos) -->
-    <section class="mb-8">
-      <h2 class="text-xl font-bold mb-2">Em alta</h2>
-      <div class="flex gap-4 overflow-x-auto py-2">
-        <!-- cards estáticos (só visual) -->
-        <div class="min-w-[160px]">
-          <img src="https://i.ytimg.com/vi/wlpr0jpGGGI/hqdefault.jpg" alt="" class="rounded-lg w-full" />
-          <p class="text-sm mt-1">Exemplo 1</p>
-        </div>
-        <div class="min-w-[160px]">
-          <img src="https://i.ytimg.com/vi/esjS0A8hwfs/hqdefault.jpg" alt="" class="rounded-lg w-full" />
-          <p class="text-sm mt-1">Exemplo 2</p>
-        </div>
-      </div>
-    </section>
+    <section class="section" aria-labelledby="featured-title"><div class="section-heading"><div><span class="eyebrow">Seleção do dia</span><h2 id="featured-title">Em destaque</h2></div><div class="section-heading-actions" aria-label="Controles de rolagem"><button class="scroll-button" type="button" data-scroll-target="featuredGrid" data-direction="left" aria-label="Rolar destaques para a esquerda">←</button><button class="scroll-button" type="button" data-scroll-target="featuredGrid" data-direction="right" aria-label="Rolar destaques para a direita">→</button></div></div><div class="card-rail" id="featuredGrid" aria-live="polite"></div></section>
 
-    <!-- === SEÇÃO SOLICITADA: LEON & NILCE: FILMES === -->
-    <section id="leon-nilce-filmes" class="mb-12">
-      <h2 class="text-2xl font-bold mb-3">LEON &amp; NILCE: FILMES</h2>
-      <div class="flex gap-4 overflow-x-auto py-2">
-        <!-- Each thumbnail links to player.html?vid=VIDEO_ID and to detalhes.html?vid=VIDEO_ID via overlay buttons -->
-        <div class="flex gap-3">
-          <!-- repeated items -->
-          <template id="thumb-template">
-            <div class="min-w-[240px]">
-              <div class="relative rounded-lg overflow-hidden group">
-                <img class="w-full aspect-video object-cover" src="" alt="" data-id="thumb-img" />
-                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-3">
-                  <a class="play-btn px-3 py-2 bg-white text-black rounded" href="#">▶</a>
-                  <a class="info-btn px-3 py-2 bg-white/30 rounded text-white border border-white/20" href="#">Detalhes</a>
-                </div>
-              </div>
-              <p class="text-sm mt-2 text-gray-200" data-id="thumb-title"></p>
-            </div>
-          </template>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="colecao" aria-labelledby="collection-title"><div class="section-heading"><div><span class="eyebrow">Coleção principal</span><h2 id="collection-title">LEON &amp; NILCE: FILMES</h2><p>Uma seleção organizada para você continuar de onde parou.</p></div><div class="section-heading-actions"><button class="scroll-button" type="button" data-scroll-target="collectionGrid" data-direction="left" aria-label="Rolar coleção para a esquerda">←</button><button class="scroll-button" type="button" data-scroll-target="collectionGrid" data-direction="right" aria-label="Rolar coleção para a direita">→</button></div></div><div class="card-rail" id="collectionGrid" aria-live="polite"></div></section>
+
+    <section class="section" id="favoritesSection" aria-labelledby="favorites-title" hidden><div class="section-heading"><div><span class="eyebrow">Sua lista</span><h2 id="favorites-title">Favoritos</h2><p>Vídeos que você marcou para rever depois.</p></div></div><div class="card-grid" id="favoritesGrid"></div></section>
+
+    <section class="search-section" id="searchSection" aria-labelledby="search-results-title" hidden><div class="section-heading"><div><span class="eyebrow">Resultado rápido</span><h2 id="search-results-title">Resultados da busca</h2></div></div><div class="card-grid" id="searchResults"></div></section>
   </main>
 
-  <footer class="p-4 text-center text-sm text-gray-400">Feito pra demo • Salve os arquivos localmente</footer>
+  <footer class="site-footer"><div class="footer-inner"><p>NERDFLIX · projeto pessoal para organizar vídeos do YouTube · <span data-year>2026</span></p><div class="footer-links"><a href="detalhes.html">Catálogo</a><a href="config.html">Preferências</a></div></div></footer>
 
-  <script>
-    // Lista dos vídeos que você enviou (IDs e títulos simples)
-    const videos = [
-      { id: "wlpr0jpGGGI", title: "wlpr0jpGGGI" },
-      { id: "esjS0A8hwfs", title: "esjS0A8hwfs" },
-      { id: "n-sYjHOkwIk", title: "n-sYjHOkwIk" },
-      { id: "818TmDjc_ak", title: "818TmDjc_ak" },
-      { id: "GaGwd-NXyGM", title: "GaGwd-NXyGM" },
-      { id: "VRSyYcPRws0", title: "VRSyYcPRws0" },
-      { id: "FedBr0CyAlE", title: "FedBr0CyAlE" },
-      { id: "fJYkXmAdkrQ", title: "fJYkXmAdkrQ" }
-    ];
-
-    // Renderizar thumbnails dinamicamente
-    const container = document.querySelector("#leon-nilce-filmes .flex > div");
-    const tpl = document.getElementById("thumb-template");
-    videos.forEach(v => {
-      const clone = tpl.content.cloneNode(true);
-      const img = clone.querySelector("[data-id='thumb-img']");
-      const title = clone.querySelector("[data-id='thumb-title']");
-      const play = clone.querySelector(".play-btn");
-      const info = clone.querySelector(".info-btn");
-
-      img.src = `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
-      img.alt = v.title;
-      title.textContent = v.title;
-
-      // play -> player.html?vid=ID
-      play.href = `player.html?vid=${encodeURIComponent(v.id)}`;
-
-      // info -> detalhes.html?vid=ID
-      info.href = `detalhes.html?vid=${encodeURIComponent(v.id)}`;
-
-      container.appendChild(clone);
-    });
-  </script>
+  <div class="dialog" id="paletteModal" data-dialog hidden role="dialog" aria-modal="true" aria-labelledby="palette-title"><div class="dialog-panel"><div class="dialog-header"><div><span class="eyebrow">Personalização</span><h2 id="palette-title">Escolha sua paleta</h2><p>A alteração fica salva neste navegador.</p></div><button class="dialog-close" id="closePalette" type="button" aria-label="Fechar janela">×</button></div><div class="palette-list" id="paletteList"></div></div></div>
 </body>
 </html>

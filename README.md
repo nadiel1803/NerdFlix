@@ -1,61 +1,54 @@
-# NERDFLIX — Manual do Projeto
+# NERDFLIX
 
-## 1. Resumo
-NERDFLIX é uma página web inspirada em plataformas de streaming, projetada para exibir vídeos do YouTube de forma organizada e interativa. A aplicação possui um player embutido, carrosséis horizontais de miniaturas (thumbs), campo de busca, alternância de temas (claro/escuro), seletor de paletas de cores, e um modo retrô como easter-egg. O projeto prioriza acessibilidade, responsividade e facilidade de manutenção.
+O NERDFLIX é uma interface estática, responsiva e sem backend para organizar e reproduzir vídeos do YouTube. A versão revisada mantém a proposta original, mas agora utiliza uma identidade visual compartilhada, um catálogo centralizado e preferências locais funcionais.
 
----
+> O projeto não é uma plataforma de streaming real. O catálogo e a reprodução dependem dos vídeos públicos e das permissões de incorporação do YouTube.
 
-## 2. Estrutura de arquivos
-- **index.html**: contém a marcação completa, incluindo cabeçalho, controles, player, seções de vídeos, modal de seleção de paletas e rodapé.  
-- **styles.css**: define o estilo visual, variáveis CSS para temas e paletas, layout responsivo e efeitos do modo retrô.  
-- **script.js**: gerencia a lógica de interação, incluindo clique em thumbnails, busca, toggle de tamanho de thumbnails, alternância de tema, seleção de paletas, persistência em `localStorage` e easter-egg retrô.
+## O que foi aprimorado
 
----
+A revisão eliminou a duplicação de catálogo entre as páginas, retirou a dependência do Tailwind via CDN, conectou todas as telas ao mesmo `styles.css` e ao mesmo `script.js`, substituiu títulos baseados em IDs por metadados legíveis e transformou a tela de configurações em uma área funcional. A aplicação também passou a oferecer busca na home e no catálogo, favoritos persistentes, fallback de thumbnails, temas claro e escuro, paletas de destaque, cards compactos ou grandes, autoplay configurável e estados vazios claros.
 
-## 3. Funcionalidades
+## Estrutura
 
-### 3.1 Player e Miniaturas
-- O player principal é um **iframe** do YouTube, atualizado automaticamente ao clicar em uma miniatura.  
-- Suporte a teclado: miniaturas podem ser ativadas utilizando as teclas `Enter` ou `Space`.
+| Arquivo | Responsabilidade |
+| --- | --- |
+| `index.html` | Home com hero, busca, destaques, coleção e favoritos. |
+| `detalhes.html` | Catálogo pesquisável e detalhe contextual do vídeo selecionado. |
+| `player.html` | Reprodução do vídeo informado por `?vid=ID`, metadados e recomendações. |
+| `config.html` | Perfil local, tema, paleta, autoplay e densidade dos cards. |
+| `styles.css` | Identidade visual, componentes, responsividade e acessibilidade. |
+| `script.js` | Catálogo, renderização, navegação, estado local e interações. |
+| `Assets/` | Imagens enviadas no pacote original e usadas como apoio/fallback. |
 
-### 3.2 Busca e Filtros
-- A barra de busca filtra miniaturas em tempo real, considerando `href`, `data-title` e atributo `alt` das imagens.  
-- A busca inclui um easter-egg que ativa o modo retrô ao digitar "nerdflix".
+## Como editar o catálogo
 
-### 3.3 Layout e Interface
-- Toggle de tamanho das miniaturas, permitindo aumentar ou reduzir a visualização.  
-- Carrosséis horizontais em cada seção, com rolagem suave.  
-- Botão de acesso a playlist completa para cada seção.
+Abra `script.js` e localize a constante `CATALOG`. Cada objeto representa um vídeo. Para incluir um novo conteúdo, adicione outro objeto com `id`, `title`, `description`, `category`, `type` e `tags`.
 
-### 3.4 Temas e Paletas de Cores
-- Alternância entre temas claro e escuro, com persistência em `localStorage`.  
-- Modal de seleção de paletas com visualização prévia de cores.  
-- Alteração de cores principais da interface (variáveis CSS: `--accent`, `--accent-strong`, `--thumb-hover-border`).
+```js
+{
+  id: 'ID_DO_VIDEO',
+  title: 'Título que aparecerá no site',
+  description: 'Resumo curto do conteúdo.',
+  category: 'NOVA COLEÇÃO',
+  type: 'Filme',
+  tags: ['tema', 'coleção']
+}
+```
 
-### 3.5 Modo Retrô (Easter-Egg)
-- Ativado ao digitar "nerdflix" no campo de busca.  
-- Altera a aparência do site com tipografia monospace, scanlines, pixelização das miniaturas e cores neon.  
-- Inclui banner informativo e pode ser desativado via `Esc` ou botão de fechamento.  
-- Configurado para desligar automaticamente após cinco minutos.
+O `id` deve ser o identificador do vídeo no YouTube. O site monta automaticamente a miniatura, o player, o link de detalhes e o link externo para o YouTube.
 
-### 3.6 Acessibilidade
-- Suporte a navegação por teclado nos controles e miniaturas.  
-- Modal de paletas mantém foco acessível (focus trapping mínimo).  
-- Elementos semânticos e ARIA foram aplicados para melhor experiência de usuários com deficiência.
+## Preferências locais
 
----
+As preferências são salvas usando `localStorage`. Os nomes das chaves são `nerdflix-theme`, `nerdflix-accent`, `nerdflix-thumb-size`, `nerdflix-autoplay`, `nerdflix-favorites` e `nerdflix-profile`. Não há envio de dados para servidor.
 
-## 4. Persistência de Preferências
-- `nerdflix-theme`: define tema atual (`light` ou `dark`).  
-- `nerdflix-accent`: define a paleta de cores escolhida.  
-- Estas preferências são carregadas automaticamente ao iniciar a página.
+## Como executar
 
----
+Por ser um projeto estático, os arquivos podem ser publicados diretamente em GitHub Pages, Netlify, Vercel ou qualquer servidor que entregue HTML, CSS e JavaScript. Para testar localmente, abra `index.html` no navegador. Para uma experiência mais próxima da produção, use um servidor estático local, como o recurso de servidor do seu editor ou qualquer servidor HTTP simples.
 
-## 5. Customização
-- **Paletas de cores**: localizadas no `script.js` na array `palettes`, cada objeto define `{ name, label, accent, accentStrong, thumbBorder }`.  
-- **Miniaturas e vídeos**: adicionar novos vídeos é feito no HTML com a seguinte estrutura:
-  ```html
-  <a class="thumb" href="#" data-video="https://www.youtube.com/embed/VIDEOID?rel=0" data-title="Título do vídeo">
-    <img src="https://i.ytimg.com/vi/VIDEOID/hqdefault.jpg" alt="Descrição do vídeo">
-  </a>
+O projeto usa miniaturas e incorporações do YouTube, portanto alguns recursos dependem de conexão com a internet. Se uma miniatura não carregar, o código tenta uma qualidade alternativa e depois apresenta um asset local de fallback.
+
+## Observações de manutenção
+
+Os links internos são relativos e funcionam em hospedagem estática. A reprodução não usa autoplay por padrão, porque navegadores podem bloquear reprodução automática com som. Caso o usuário ative essa preferência, o player acrescenta a solicitação de autoplay ao iframe.
+
+O nome NERDFLIX e os elementos visuais inspirados em serviços conhecidos devem ser tratados como parte de um projeto pessoal ou educacional. Para uma publicação comercial, substitua a identidade visual e utilize somente conteúdo e marcas para os quais você tenha autorização.

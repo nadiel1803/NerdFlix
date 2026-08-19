@@ -1,90 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Player — NetflixClone</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <style>.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090b">
+  <meta name="description" content="Player de vídeos do NERDFLIX.">
+  <title>Player — NERDFLIX</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
-<body class="bg-black text-white">
-  <header class="p-4 flex items-center justify-between bg-black/60">
-    <div class="flex items-center gap-3">
-      <a href="index.html" class="text-white/90">◀ Voltar</a>
-      <a href="detalhes.html" class="text-white/70">Detalhes</a>
-    </div>
-    <div>
-      <a href="index.html" class="text-white/90">Início</a>
-    </div>
-  </header>
+<body data-page="player">
+  <header class="site-header"><div class="header-inner"><a class="brand" href="index.html" aria-label="NERDFLIX — página inicial"><span class="brand-mark" aria-hidden="true">N</span><span class="brand-name">NERD<em>FLIX</em></span></a><nav class="main-nav" aria-label="Navegação principal"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html" aria-current="page">Player</a><a href="config.html">Configurações</a></nav><div class="header-actions"><button class="icon-button menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button><button class="icon-button" type="button" data-theme-toggle aria-label="Alternar tema" aria-pressed="false"><span data-theme-icon aria-hidden="true">☼</span></button><a class="ghost-button" href="detalhes.html">Catálogo</a></div></div><nav class="mobile-nav" id="mobileNav" aria-label="Navegação móvel"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a><a href="player.html" aria-current="page">Player</a><a href="config.html">Configurações</a></nav></header>
 
-  <main class="max-w-6xl mx-auto p-4">
-    <div id="player-wrap" class="rounded-lg overflow-hidden" style="background:#000">
-      <div id="video-box" class="w-full aspect-video">
-        <!-- iframe será inserido via JS -->
-      </div>
-    </div>
-
-    <div id="meta" class="mt-4">
-      <h1 id="video-title" class="text-2xl font-bold">Carregando...</h1>
-      <p id="video-desc" class="text-gray-300 mt-2">Descrição do vídeo — clique em Detalhes para ver mais metadados.</p>
-      <div class="mt-4 flex gap-2">
-        <a id="open-details" class="px-4 py-2 bg-white text-black rounded" href="#">Abrir detalhes</a>
-        <a id="open-youtube" class="px-4 py-2 bg-white/20 border border-white/10 rounded" target="_blank" href="#">Abrir no YouTube</a>
-      </div>
-    </div>
+  <main class="page-shell"><div class="page-intro"><div><span class="eyebrow">Central de reprodução</span><h1>Player</h1><p>Assista ao título escolhido. Caso a página tenha sido aberta sem um vídeo, volte ao catálogo para selecionar um item.</p></div></div>
+    <section class="player-shell" aria-label="Área do player"><div class="video-frame" id="videoBox"></div><div class="player-empty" id="playerEmpty" hidden><span class="empty-state-icon" aria-hidden="true">▶</span><h1>Nenhum vídeo selecionado</h1><p>Abra um título pelo catálogo ou use um endereço como <code>player.html?vid=ID</code>.</p><a class="button button-primary" href="detalhes.html">Abrir catálogo</a></div></section>
+    <section class="player-info" id="playerContent" hidden><div><span class="eyebrow" id="playerEyebrow">Coleção</span><h1 id="playerTitle">Carregando...</h1><p id="playerDescription">Carregando descrição...</p></div><div class="player-actions"><a class="button button-primary" id="openDetails" href="#">Abrir detalhes</a><button class="button button-secondary" id="playerFavorite" type="button">♡ Favoritar</button><a class="button button-ghost" id="openYoutube" href="#" target="_blank" rel="noopener noreferrer">YouTube ↗</a></div></section>
+    <section class="section" aria-labelledby="recommendations-title"><div class="section-heading"><div><span class="eyebrow">Continue explorando</span><h2 id="recommendations-title">Mais da coleção</h2></div></div><div class="card-grid" id="recommendationsGrid"></div></section>
   </main>
 
-  <script>
-    // util: pegar query string
-    function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-
-    // mini-banco local (títulos/descs) para exibir algo decente
-    const meta = {
-      "wlpr0jpGGGI": { title: "wlpr0jpGGGI", desc: "Descrição do vídeo wlpr0jpGGGI." },
-      "esjS0A8hwfs": { title: "esjS0A8hwfs", desc: "Descrição do vídeo esjS0A8hwfs." },
-      "n-sYjHOkwIk": { title: "n-sYjHOkwIk", desc: "Descrição do vídeo n-sYjHOkwIk." },
-      "818TmDjc_ak": { title: "818TmDjc_ak", desc: "Descrição do vídeo 818TmDjc_ak." },
-      "GaGwd-NXyGM": { title: "GaGwd-NXyGM", desc: "Descrição do vídeo GaGwd-NXyGM." },
-      "VRSyYcPRws0": { title: "VRSyYcPRws0", desc: "Descrição do vídeo VRSyYcPRws0." },
-      "FedBr0CyAlE": { title: "FedBr0CyAlE", desc: "Descrição do vídeo FedBr0CyAlE." },
-      "fJYkXmAdkrQ": { title: "fJYkXmAdkrQ", desc: "Descrição do vídeo fJYkXmAdkrQ." }
-    };
-
-    const vid = getQueryParam("vid");
-    const videoBox = document.getElementById("video-box");
-    const titleEl = document.getElementById("video-title");
-    const descEl = document.getElementById("video-desc");
-    const openDetails = document.getElementById("open-details");
-    const openYoutube = document.getElementById("open-youtube");
-
-    if (!vid) {
-      titleEl.textContent = "Nenhum vídeo especificado";
-      descEl.textContent = "Passe ?vid=ID no URL ou clique em um thumbnail na página inicial.";
-      videoBox.innerHTML = `<div class="flex items-center justify-center h-full text-gray-400">Nenhum vídeo</div>`;
-    } else {
-      // build iframe
-      const iframe = document.createElement("iframe");
-      iframe.width = "100%";
-      iframe.height = "100%";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen";
-      iframe.allowFullscreen = true;
-      // autoplay on load
-      iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(vid)}?rel=0&autoplay=1`;
-      iframe.className = "w-full h-full";
-      videoBox.appendChild(iframe);
-
-      const m = meta[vid] || { title: vid, desc: "Descrição não disponível." };
-      titleEl.textContent = m.title;
-      descEl.textContent = m.desc;
-
-      openDetails.href = `detalhes.html?vid=${encodeURIComponent(vid)}`;
-      openYoutube.href = `https://www.youtube.com/watch?v=${encodeURIComponent(vid)}`;
-    }
-  </script>
+  <footer class="site-footer"><div class="footer-inner"><p>NERDFLIX · reprodução via YouTube · <span data-year>2026</span></p><div class="footer-links"><a href="index.html">Início</a><a href="detalhes.html">Catálogo</a></div></div></footer>
 </body>
 </html>
